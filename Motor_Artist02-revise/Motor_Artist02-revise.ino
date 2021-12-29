@@ -169,8 +169,8 @@ int newoption;
 int newsel;
 
 void loop () {
-  int buttonState;
-  buttonState = digitalRead(buttonPin_SET);
+//  int buttonState;
+//  buttonState = digitalRead(buttonPin_SET);
   option = getleftright(7, option);
 
   while (option != newoption  )
@@ -183,21 +183,25 @@ void loop () {
       case 1: instructs();
         break;
       case 2:  selection_pat1();
-        while (true) {
+      /* while (true) {
           sel = getupdown (3, sel);
           if (sel != newsel)
             switch (sel) {
               case 0: selection_pat1();
-               /* if (digitalRead(buttonPin_SET) == LOW) {
-                  delay(250);
-                  Serial.println("Set Pin Is Pressed.");
-                  while (digitalRead(buttonPin_SET) == LOW);
-                }*/
+             //   if (digitalRead(buttonPin_SET) == LOW) {
+             //     delay(250);
+             //     Serial.println("Set Pin Is Pressed.");
+             //     while (digitalRead(buttonPin_SET) == LOW);
+            //    }
                 do{
                   Serial.print("SET1");
+                  option = 3;
+                
                   //pattern_1();
-                  }while ((digitalRead(buttonPin_SET) == LOW));
-                  Serial.print( " set is press");
+                  }while ((digitalRead(buttonPin_RHT) == LOW));
+                  //Serial.print( " set is press");
+                  Serial.print(option);
+                  
                 break;
               case 1: selection_pat2();
                 break;
@@ -207,9 +211,14 @@ void loop () {
           newsel = sel;
           //Serial.print(sel);
         }
-
+*/
         break;
       case 3: pattern_1();
+      do{
+       option = 1;
+      }while (!digitalRead(buttonPin_UP));
+   
+  
         break;
       case 4: pattern_2();        
         break;
@@ -238,8 +247,6 @@ void loop () {
     newoption = option;
     Serial.print("newoption");
     Serial.println(newoption);
-    Serial.print(sel);
-    Serial.print(newsel);
   }
 
 }
