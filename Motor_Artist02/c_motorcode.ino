@@ -1,34 +1,34 @@
 //motorcode 1
 void motorcode1() {
   stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != 10 * 200 )
+  while (stepper.currentPosition() != 8 * 10 * 200 )
   {
-    stepper.setSpeed(200);
+    stepper.setSpeed(8*200);
     stepper.runSpeed();
   }
   stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != -10 * 200)
+  while (stepper.currentPosition() != 8* -10 * 200)
   {
-    stepper.setSpeed(-200);
+    stepper.setSpeed(8*-200);
     stepper.runSpeed();
   }
 
-  delay(1000);
+  
 }
 
 //motor code 2
 void motorcode2() {
 
   stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != 15 * 200 )
+  while (stepper.currentPosition() !=8* 15 * 200 )
   {
-    stepper.setSpeed(500);
+    stepper.setSpeed(8*500);
     stepper.runSpeed();
   }
   stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != -15 * 200)
+  while (stepper.currentPosition() != 8*-15 * 200)
   {
-    stepper.setSpeed(-500);
+    stepper.setSpeed(8*-500);
     stepper.runSpeed();
   }
   delay(1000);
@@ -40,16 +40,16 @@ int motorcode5 (int spd, int aclw, int dlay, int clw, int rounds)
   while (rounds != 0 )
   {
     stepper.setCurrentPosition(0);
-    while (stepper.currentPosition() != aclw * 200 )
+    while (stepper.currentPosition() != aclw *8* 200 )
     {
-      stepper.setSpeed(spd);
+      stepper.setSpeed(8*spd);
       stepper.runSpeed();
     }
     delay(dlay);
     stepper.setCurrentPosition(0);
-    while (stepper.currentPosition() != -clw * 200)
+    while (stepper.currentPosition() != -clw *8* 200)
     {
-      stepper.setSpeed(-spd);
+      stepper.setSpeed(8*-spd);
       stepper.runSpeed();
     }
     delay(dlay);

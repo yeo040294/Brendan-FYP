@@ -1,5 +1,5 @@
 //Main Page
-void screen1() {
+void startpage() {
   tft.fillScreen(BLACK);
   tft.drawBitmap (130, 70, right_arrow, 20, 20, BLACK, WHITE);
   tft.setTextSize(2);
@@ -9,7 +9,7 @@ void screen1() {
 }
 
 //instruction Page
-void screen2() {
+void instructs() {
   tft.fillScreen(BLACK);
   tft.drawBitmap (135, 70, right_15, 15, 15, BLACK, WHITE);
   tft.setTextSize(2);
@@ -25,8 +25,8 @@ void screen2() {
   tft.setTextSize(1);
   tft.setCursor(50, 77);
   tft.print(F(":CHANGE VALUE"));
-  tft.drawBitmap (10, 85, rect_set_reset, 20, 20, WHITE, BLACK);
-  tft.drawBitmap (30, 85, rect_set_reset, 20, 20, WHITE, RED);
+  tft.drawBitmap (10, 85, rect_set_reset, 20, 20, BLACK, WHITE);
+  tft.drawBitmap (30, 85, rect_set_reset, 20, 20, BLACK, RED);
   tft.setTextSize(1);
   tft.setCursor(50, 90);
   tft.print(F(":SET / RESET"));
@@ -34,24 +34,12 @@ void screen2() {
 
 
 //Selection Page
-void screen3() {
-  tft.fillScreen(BLACK);
-  tft.setTextSize(1);
-  tft.setCursor(30, 40);
-  tft.print(F("Pattern 1"));
-  tft.drawRect(28, 35, 55, 18, WHITE);
-  tft.setCursor(30, 60);
-  tft.print(F("Pattern 2"));
-  //tft.drawRect(28,55,55,18, WHITE);
-  tft.setCursor(30, 85);
-  tft.print(F("Customise"));
-  //tft.drawRect(28,80, 70,18, WHITE);
-  tft.drawBitmap (90, 30, up_15, 15, 15, WHITE, BLACK);
-  tft.drawBitmap (90, 90, down_15, 15, 15, WHITE, BLACK);
+void selection_pat1() {
+  choice(3, pat_choice,0);
 }
 
 //Pattern1
-void screen4() {
+void pattern_1() {
   menu(6, pattern1);
   tft.setCursor(120, 50);
   tft.print(200);
@@ -62,11 +50,11 @@ void screen4() {
   tft.setCursor(120, 60);
   tft.print(10);
   tft.setCursor(120, 90);
-  tft.print(cyc);
+  tft.print(1);
 }
 
 //Pattern2
-void screen5() {
+void pattern_2() {
   menu(6, pattern2);
   tft.setCursor(120, 50);
   tft.print(500);
@@ -77,11 +65,11 @@ void screen5() {
   tft.setCursor(120, 60);
   tft.print(15);
   tft.setCursor(120, 90);
-  tft.print(cyc);
+  tft.print(1);
 }
 
 //Customise
-void screen6() {
+void custom() {
   menu(6, customise);
   tft.setCursor(120, 50);
   tft.print(rpm);
@@ -98,69 +86,66 @@ void screen6() {
 }
 
 //RPM adjustment
-void screen7() {
+void rpm_option() {
   state (0, key);
   tft.setCursor(40, 75);
   tft.print(rpm);;
 }
 
 //Anticlockwise adjustment
-void screen8() {
+void anticlockwise_option() {
   state (1, key);
   tft.setCursor(50, 80);
   tft.print(acw);
 }
 
 //Delay adjustment
-void screen9() {
+void delay_option() {
   state (2, key);
   tft.setCursor(50, 75);
   tft.print(dly);
 }
 
 //Clockwise adjustment
-void screen10() {
+void clockwise_option() {
   state (3, key);
   tft.setCursor(50, 75);
   tft.print(cw);
 }
 
 //Cycle adjustment
-void screen11() {
+void cycle_option() {
   state (4, key);
   tft.setCursor(50, 75);
   tft.print(cyc);
 }
 
 //Selection Page 2
-void screen12() {
-  tft.fillScreen(BLACK);
-  tft.setCursor(30, 40);
-  tft.print(F("Pattern 1"));
-  //tft.drawRect(28,35,55,18, WHITE);
-  tft.setCursor(30, 60);
-  tft.print(F("Pattern 2"));
-  tft.drawRect(28, 55, 55, 18, WHITE);
-  tft.setCursor(30, 85);
-  tft.print(F("Customise"));
-  //tft.drawRect(28,80, 70,18, WHITE);
-  tft.drawBitmap (90, 30, up_15, 15, 15, WHITE, BLACK);
-  tft.drawBitmap (90, 90, down_15, 15, 15, WHITE, BLACK);
-
+void selection_pat2() {
+   choice(3, pat_choice,1); 
 }
 
 //Selection Page 3
-void screen13() {
-  tft.fillScreen(BLACK);
-  tft.setCursor(30, 40);
-  tft.print(F("Pattern 1"));
-  //tft.drawRect(28,35,55,18, WHITE);
-  tft.setCursor(30, 60);
-  tft.print(F("Pattern 2"));
-  //tft.drawRect(28,55,55,18, WHITE);
-  tft.setCursor(30, 85);
-  tft.print(F("Customise"));
-  tft.drawRect(28, 80, 70, 18, WHITE);
-  tft.drawBitmap (90, 30, up_15, 15, 15, WHITE, BLACK);
-  tft.drawBitmap (90, 90, down_15, 15, 15, WHITE, BLACK);
+void selection_custom() {
+choice(3, pat_choice,2);
+}
+
+void rpmoption_1() {
+  choice(3,option_choice1,0);
+}
+
+void clockoption_1() {
+  choice(3,option_choice1,1);
+}
+
+void antioption_1() {
+  choice(3,option_choice1,2);
+}
+
+void delayoption_2() {
+  choice(2,option_choice2,0);
+}
+
+void cycleoption_2() {
+  choice(2,option_choice2,1);
 }

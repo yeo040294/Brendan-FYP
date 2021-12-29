@@ -21,6 +21,30 @@ void menu(int menu_opt ,  const char *const string_table[]) {
   tft.drawBitmap (135, 70, right_15, 15, 15, BLACK, WHITE);
 }
 
+void choice(int choice_opt ,  const char *const string_table[], int select) {
+ 
+  tft.fillScreen(BLACK);
+  for (int i = 0; i < choice_opt; i++)
+  {
+    tft.setTextSize(1);
+    tft.setCursor(30, 60 + i * 20 - 20);
+    strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
+    tft.println(buffer);
+  }
+  if (select ==0)
+  tft.drawRect(28, 35, 60, 18, WHITE);
+  else if (select ==1)
+  tft.drawRect(28, 55, 60, 18, WHITE);
+  else 
+  tft.drawRect(28,75, 60,18, WHITE);
+  
+
+  //tft.drawRect(130, 90, 22, 15, WHITE);
+  tft.drawBitmap (90, 30, up_15, 15, 15, WHITE, BLACK);
+  tft.drawBitmap (90, 90, down_15, 15, 15, WHITE, BLACK);
+}
+
+
 void state (int menu_opt, const char *const string_table[]) {
   int i = menu_opt;
   tft.fillScreen(BLACK);
@@ -36,65 +60,89 @@ void updatemenu() {
   switch (mode) {
 
     case 1:
-      Serial.println("Screen2");
-      screen2();
+      Serial.println("instructs");
+      instructs();
       break;
 
     case 2:
-      Serial.println("Screen3");
-      screen3();
+      Serial.println("selection_pat1");
+      selection_pat1();                                                                                                                       
       break;
 
     case 3:
-      Serial.println("Screen4");
-      screen4();
+      Serial.println("pattern_1");
+      pattern_1();
       break;
 
     case 4:
-      Serial.println("Screen5");
-      screen5();
+      Serial.println("pattern_2");
+      pattern_2();
       break;
 
     case 5:
-      Serial.println("Screen6");
-      screen6();
+      Serial.println("custom");
+      custom();
       break;
 
     case 6:
-      Serial.println("Screen7");
-      screen7();
+      Serial.println("rpm_option");
+      rpm_option();
       break;
 
     case 7:
-      Serial.println("Screen8");
-      screen8();
+      Serial.println("anticlockwise_option");
+      anticlockwise_option();
       break;
 
     case 8:
-      Serial.println("Screen9");
-      screen9();
+      Serial.println("delay_option");
+      delay_option();
       break;
 
     case 9:
-      Serial.println("Screen10");
-      screen10();
+      Serial.println("clockwise_option");
+      clockwise_option();
       break;
 
     case 10:
-      Serial.println("Screen11");
-      screen11();
+      Serial.println("cycle_option");
+      cycle_option();
       break;
 
     case 11:
-      Serial.println("Screen12");
-      screen12();
+      Serial.println("selection_pat2");
+      selection_pat2();
       break;
 
     case 12:
-      Serial.println("Screen13");
-      screen13();
+      Serial.println("selection_custom");
+      selection_custom();
       break;
 
+    case 13:
+      Serial.println("clockwise_option");
+      rpmoption_1();
+      break;
+
+    case 14:
+      Serial.println("cycle_option");
+      clockoption_1();
+      break;
+
+    case 15:
+      Serial.println("selection_pat2");
+      antioption_1();
+      break;
+
+    case 16:
+      Serial.println("selection_custom");
+      delayoption_2();
+      break;
+      
+  case 17:
+      Serial.println("selection_custom");
+      cycleoption_2();
+      break;
   }
 }
 
@@ -104,7 +152,7 @@ void resetBtn() {
     delay(250);
     Serial.println("Reset Pin Is Pressed.");
     mode = 0;
-    screen1();
+    startpage();
     int rpm = 100;
     int acw = 0;
     int dly = 0;
@@ -125,6 +173,19 @@ void midBtn() {
   //button spoil on my set up
   if (digitalRead(buttonPin_MID) == LOW) {
     delay(250);
+    mode = 0;
+    startpage();
+    int rpm = 100;
+    int acw = 0;
+    int dly = 0;
+    int cw = 0;
+    int cyc = 1;
+
+    int spd = 100;
+    int alcw = 0;
+    int dlay = 0;
+    int clw = 0;
+    int rounds = 1;
     Serial.println("Middle Pin Is Pressed.");
     while (digitalRead(buttonPin_MID) == LOW);
   }
