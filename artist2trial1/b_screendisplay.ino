@@ -148,5 +148,5 @@ void delayoption_2() {
 }
 
 void cycleoption_2() {
-  choice(2,option_choice1,1);
+  choice(2,option_choice2,1);
 }
