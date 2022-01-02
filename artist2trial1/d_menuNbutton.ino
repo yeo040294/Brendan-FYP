@@ -57,7 +57,7 @@ void state (int menu_opt, const char *const string_table[]) {
   tft.drawBitmap (70, 90, down_15, 15, 15, WHITE, BLACK);
 }
 
-void updatemenu() {
+/*void updatemenu() {
   switch (mode) {
 
     case 1:
@@ -196,3 +196,5 @@ void midBtn() {
     while (digitalRead(buttonPin_MID) == LOW);
   }
 }
+
+*/

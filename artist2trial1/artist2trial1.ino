@@ -95,20 +95,19 @@ const char *const option_choice2[] PROGMEM = {string14, string15};
 bool updateMenu = true;
 int option = 0;
 int sel = 0;
-int sele=0;
+int sele = 0;
 int selec = 0;
-int suboption = 0;
+int suboption = -10;
 int newoption = -2;
 int newsel = -2;
 int newsele = -2;
-int newselec= -2;
+int newselec = -2;
 int subnewoption = -2;
- 
+
 
 int mode = 0;
 int rpm = 100;
 int cw = 7;
-int lin1 = 0;
 int acw = 7;
 int cyc = 1;
 int dly  = 0;
@@ -199,8 +198,10 @@ void mainscreenoption()
       case 2:  selection_pat1();
         break;
       case 3: pattern_1();
+        //motorcode1();
         break;
       case 4: pattern_2();
+        // motorcode2();
         break;
       case 5: rpmoption_1();
         break;
@@ -209,10 +210,11 @@ void mainscreenoption()
         break;
       case 7:
         custom();
+      // motorcode5(rpm,acw,dly,cw,cyc);
       default : break;
     }
-    Serial.print(option);
-    Serial.print("newoption");
+    //Serial.print(option);
+    //Serial.print("newoption");
     newoption = option;
   }
 
@@ -227,7 +229,7 @@ void selectionpat() {
       case 1: selection_pat2();
         break;
       case 2:
-          selection_custom();
+        selection_custom();
         break;
     }
   newsel = sel;
@@ -246,9 +248,9 @@ void selectioncase1() {
       case 2: antioption_1();
         break;
       case 3: delayoption_2();
-      break;
+        break;
       case 4: cycleoption_2();
-      break;
+        break;
     }
   newselec = selec;
 
@@ -262,16 +264,17 @@ void selectioncase2() {
         break;
       case 1: cycleoption_2();
         break;
-     
+
     }
   newsele = sele;
 
 }
 
 // thinking if should add a bool to main and sub screen to call each option
-// do until here
-void subscreenoption()
-{
+// might not need
+/*
+  void subscreenoption()
+  {
 
   suboption = getleftright(5, suboption);
 
@@ -290,7 +293,7 @@ void subscreenoption()
         break;
       case 4: cycle_option();
         break;
-      
+
       default : break;
     }
     Serial.print(suboption);
@@ -298,64 +301,259 @@ void subscreenoption()
     subnewoption = suboption;
   }
 
+  }
+*/
+
+int dataupdates( int opt)
+{
+  suboption = opt;
+  //RPM update
+  if (digitalRead(buttonPin_UP) == LOW && suboption == 0)
+  {
+    rpm = rpm  + 10;
+    delay(200);
+  }
+  else if ((digitalRead(buttonPin_DWN) == LOW) && rpm  >= 0 && suboption == 0)
+  {
+    rpm = rpm  - 10;
+    delay(200);
+  }
+
+  // clockwise update
+  if (digitalRead(buttonPin_UP) == LOW && suboption == 1)
+  {
+    cw = cw  + 1;
+    delay(200);
+  }
+  else if ((digitalRead(buttonPin_DWN) == LOW) && cw  >= 0 && suboption == 1)
+  {
+    cw = cw  - 1;
+    delay(200);
+  }
+  // clockwise update
+  Serial.println(cw);
+
+  // anticlockwise update
+  if (digitalRead(buttonPin_UP) == LOW && suboption == 2)
+  {
+    acw = acw  + 1;
+    delay(200);
+  }
+  else if ((digitalRead(buttonPin_DWN) == LOW) && acw  >= 0 && suboption == 2)
+  {
+    acw = acw  - 1;
+    delay(200);
+  }
+  //Serial.println(acw);
+
+  if (digitalRead(buttonPin_UP) == LOW && suboption == 3)
+  {
+    dly = dly  + 1;
+    delay(200);
+  }
+  else if ((digitalRead(buttonPin_DWN) == LOW) && dly  >= 0 && suboption == 3)
+  {
+    dly = dly  - 1;
+    delay(200);
+  }
+
+  if (digitalRead(buttonPin_UP) == LOW && suboption == 4)
+  {
+    cyc = cyc  + 1;
+    delay(200);
+  }
+  else if ((digitalRead(buttonPin_DWN) == LOW) && cyc  >= 0 && suboption == 4)
+  {
+    cyc = cyc  - 1;
+    delay(200);
+  }
+
 }
 
 void loop () {
   mainscreenoption();
-  
+  //   subscreenoption();
+
+  //  Serial.print(suboption);
+
   // selection pattern page
   if ((option == 2))
   {
     selectionpat();
     if ((sel == 0) && (digitalRead(buttonPin_SET) == LOW))
     {
+      delay(100);
       option = 3;
+      pattern_1();//  if dont put this it will auto execute motorcode as option 3 is selected mmmm
+      
     }
     else if ((sel == 1) && (digitalRead(buttonPin_SET) == LOW))
     {
       option = 4;
+      pattern_2();//  if dont put this it will auto execute motorcode as option 4 is selected mmmm
     }
     else if ((sel == 2) && (digitalRead(buttonPin_SET) == LOW))
       option = 5;
-      delay(100);
-    Serial.print(sel);
+    delay(100);
+    //Serial.print(sel);
   }
 
-// selection rpm page
-if ((option == 5))
+  // selection rpm page
+  if ((option == 5))
   {
-    
+
+
     selectioncase1();
     if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))
     {
+      delay (100);
       suboption = 0;
+      option = -1;
+
+
+      do {
+        //subscreenoption();
+        rpm_option();
+        dataupdates(0);
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+
+          option = 5;
+          selec = 1;
+          break;
+        }
+
+      } while (option = -1);
+
+
+
+
     }
     else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))
     {
+      delay (100);
       suboption = 1;
+      option = -1;
+
+
+      do {
+        clockwise_option();
+        //subscreenoption();
+        dataupdates(1);
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 5;
+          selec = 2;
+          break;
+        }
+      } while (option = -1);
+
+
     }
     else if ((selec == 2) && (digitalRead(buttonPin_SET) == LOW))
     {
+      delay (100);
       suboption = 2;
-    } 
-    Serial.print(selec);
+      option = -1;
+
+
+      do {
+        //subscreenoption();
+        anticlockwise_option();
+        dataupdates(2);
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 6;
+          selec = 0;
+          break;
+        }
+      } while (option = -1);
+
+    }
   }
 
-//selection delay page
-if ((option == 6))
+  //selection delay page
+  if ((option == 6))
   {
-    
+    delay(200);
     selectioncase2();
     if ((sele == 0) && (digitalRead(buttonPin_SET) == LOW))
     {
+      delay (100);
       suboption = 3;
+      option = -1;
+      do {
+        delay_option();
+        //subscreenoption();
+        dataupdates(3);
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 6;
+          sele = 1;
+          break;
+        }
+      } while (option = -1);
+
     }
+
+
     else if ((sele == 1) && (digitalRead(buttonPin_SET) == LOW))
     {
+
+      delay (100);
       suboption = 4;
+      option = -1;
+
+
+      do {
+        //subscreenoption();
+        cycle_option();
+        dataupdates(4);
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 7;
+          custom();
+          break;
+        }
+      } while (option = -1);
     }
-    
-    Serial.print(sele);
+
+    //Serial.print(sele);
   }
+
+
+
+  // pattern 1 execution
+  if ((option  == 3) && (digitalRead(buttonPin_SET) == LOW))
+  {
+  tft.fillScreen(BLACK);
+  tft.setTextSize(2);
+  tft.setCursor(30, 35);
+  tft.print(F("Executing \n  Pattern 1"));
+    motorcode1();
+    pattern_1();
+    Serial.print("code");
+  }
+  // pattern 2 execution
+  if ((option  == 4) && (digitalRead(buttonPin_SET) == LOW))
+  {
+    tft.fillScreen(BLACK);
+  tft.setTextSize(2);
+  tft.setCursor(30, 35);
+  tft.print(F("Executing \n  Pattern 2"));
+    motorcode2();
+    pattern_2();
+  }
+  // customise execution
+  if ((option == 7) && (digitalRead(buttonPin_SET) == LOW))
+  {
+ tft.fillScreen(BLACK);
+  tft.setTextSize(2);
+  tft.setCursor(30, 35);
+  tft.print(F("Executing \n  Customise"));
+    customcode(rpm,acw,dly,cw,cyc);
+    custom();
+  }
+//Serial.println(option);
 
 }

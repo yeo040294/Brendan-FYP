@@ -12,7 +12,7 @@ void motorcode1() {
     stepper.setSpeed(8*-200);
     stepper.runSpeed();
   }
-
+Serial.print("code1");
   
 }
 
@@ -32,10 +32,12 @@ void motorcode2() {
     stepper.runSpeed();
   }
   delay(1000);
+
+  Serial.print("code2");
 }
 
 //adjustable code
-int motorcode5 (int spd, int aclw, int dlay, int clw, int rounds)
+int customcode (int spd, int aclw, int dlay, int clw, int rounds)
 {
   while (rounds != 0 )
   {
