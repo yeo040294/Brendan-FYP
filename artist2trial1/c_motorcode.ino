@@ -18,7 +18,6 @@ Serial.print("code1");
 
 //motor code 2
 void motorcode2() {
-
   stepper.setCurrentPosition(0);
   while (stepper.currentPosition() !=8* 15 * 200 )
   {
