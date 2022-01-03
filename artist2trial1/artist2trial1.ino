@@ -379,7 +379,11 @@ void loop () {
   // selection pattern page
   if ((option == 2))
   {
-    selectionpat();
+    sel = getupdown (3, sel);
+    if (sel != newsel) {
+      choice(3, pat_choice, sel);
+    }
+    newsel = sel;
     if ((sel == 0) && (digitalRead(buttonPin_SET) == LOW))
     {
       delay(100);
