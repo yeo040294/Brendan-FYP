@@ -1,6 +1,6 @@
 //motorcode 1
 void motorcode1() {
-  int trial = 0;
+  /*int trial = 0;
   while (trial < 5) {
     clockw(4,80);
     relay_SetStatus(ON, OFF, OFF, OFF);//turn on RELAY_1
@@ -9,7 +9,7 @@ void motorcode1() {
     delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
     anticlockw(3,100);
-   /* relay_SetStatus(OFF, OFF , ON, OFF); //turn off RELAY_1
+    relay_SetStatus(OFF, OFF , ON, OFF); //turn off RELAY_1
     delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
     delay(200);//delay 2s0
@@ -24,13 +24,15 @@ void motorcode1() {
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
     delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-    */
+    
     trial++;
+ 
   }
+  */
 }
 //motor code 2
 void motorcode2() {
-
+/*
   int trial = 0;
   while (trial < 5) {
     stepper.begin(100, 1);
@@ -54,14 +56,16 @@ void motorcode2() {
     delay(200);//delay 2s0
     relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
     delay(200);//delay 2s0
-   /* relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
+    relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
     delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
     delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-*/
+
     trial++;
+    
   }
+  */
 }
 
 //motor code 3

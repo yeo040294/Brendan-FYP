@@ -1,4 +1,3 @@
-
 // pin wiring to Nano as follows
 // GND ----- GND
 // VCC ----- 3V3
@@ -34,7 +33,6 @@
 #define POISON  0x68FF
 
 AccelStepper stepper(AccelStepper::DRIVER, STEP, DIR);
-
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 
 //Button Pin to NANO
@@ -57,7 +55,6 @@ const unsigned char left_15 [] PROGMEM = {0xff, 0xfe, 0xff, 0xfe, 0xf9, 0xfe, 0x
 const unsigned char right_15 [] PROGMEM = {0xff, 0xfe, 0xff, 0xfe, 0xfe, 0x7e, 0xfc, 0x3e, 0xc0, 0x1e, 0x80, 0x0e, 0x80, 0x06, 0x80, 0x0e, 0xc0, 0x1e, 0xfe, 0x7e, 0xff, 0x7e, 0xff, 0xfe, 0xff, 0xfe, 0xff, 0xfe, 0xff, 0xfe};
 
 char buffer[50];
-
 //Character Array
 const char welcome[] PROGMEM = "Welcome to \n  Art Buddy";
 
@@ -81,24 +78,32 @@ const char string13[] PROGMEM = "Anti-Clockwise";
 const char string14[] PROGMEM = "Delay";
 const char string15[] PROGMEM = "Cycle";
 
-
 const char *const mainmenu[] PROGMEM = {welcome};
 const char *const pat_choice[] PROGMEM = {pat1, pat2, cus};
-const char *const pattern1[] PROGMEM = {pat1, string1, string2, string3, string4, string5};
-const char *const pattern2[] PROGMEM = {pat2, string1, string2, string3, string4, string5};
-const char *const customise[] PROGMEM = {cus, string1, string2, string3, string4, string5};
+const char *const pattern1[] PROGMEM = {pat1, string1, string4, string3, string2, string5};
+const char *const pattern2[] PROGMEM = {pat2, string1, string4, string3, string2, string5};
+const char *const customise[] PROGMEM = {cus, string1, string4, string3, string2, string5};
 const char *const key[] PROGMEM = {string6, string7, string8, string9, string10};
 const char *const option_choice1[] PROGMEM = {string11, string12, string13};
 const char *const option_choice2[] PROGMEM = {string14, string15};
 
+int option = 0;
+int sel = 0;
+int sele = 0;
+int selec = 0;
+int suboption = -10;
+int newoption = -2;
+int newsel = -2;
+int newsele = -2;
+int newselec = -2;
+int subnewoption = -2;
+
 int mode = 0;
 int rpm = 100;
 int cw = 7;
-int lin1 = 0;
 int acw = 7;
 int cyc = 1;
 int dly  = 0;
-
 
 void setup () {
   stepper.setMaxSpeed(1000);
@@ -121,391 +126,170 @@ void setup () {
 }
 
 void loop () {
-
-  // Set Button
-  if (digitalRead(buttonPin_SET) == LOW) {
-    delay(250);
-    Serial.println("Set Pin Is Pressed.");
-    switch (mode) {
-      case 2:                               //Selection page
-        Serial.println("selection_pat1");
-        mode = 3;
-        break;
-      case 3:                               //Pattern1 page
-        Serial.println("pattern_1");
-        motorcode1();
-        break;
-      case 4:                               //Pattern2 page
-        Serial.println("pattern_2");
-        motorcode2();
-        break;
-      case 5:                               //customise page
-        Serial.println("custom");
-        motorcode5(rpm, acw, dly, cw, cyc);
-        break;
-      case 6:                               //RPM adjustment
-        Serial.println("rpm_option");
-        mode = 5;
-        break;
-      case 7:                               //Anticlockwise adjustment
-        Serial.println("anticlockwise_option");
-        mode = 5;
-        break;
-      case 8:                               //Delay adjustment
-        Serial.println("delay_option");
-        mode = 5;
-        break;
-      case 9:                               //Clockwise adjustment
-        Serial.println("clockwise_option");
-        mode = 5;
-        break;
-      case 10:                               //Cycle adjustment
-        Serial.println("cycle_option");
-        mode = 5;
-        break;
-      case 11:                               //Selection Page 2
-        Serial.println("selection_pat2");
-        mode = 4;
-        break;
-      case 12:                               //Selection Page 3
-        Serial.println("selection_custom");
-        mode = 13;
-        break;
-
-     case 13:
-      Serial.println("rpmoption_1");
-      mode = 6;
-      break;
-
-    case 14:
-      Serial.println("clockoption_1");
-      mode = 9;
-      break;
-
-    case 15:
-      Serial.println("antioption_1");
-      mode = 7;
-      break;
-
-    case 16:
-      Serial.println("delayoption_2");
-      mode = 8;
-      break;
-      
-  case 17:
-      Serial.println("cycleoption_2");
-      mode = 10;
-      break;        
+  mainscreenoption();
+  // selection pattern page
+  if ((option == 2))
+  {
+    sel = getupdown (3, sel);
+    if (sel != newsel) {
+      choice(3, pat_choice, sel);               //pattern 1 / pattern2 / customise
     }
-    updatemenu();
-    while (digitalRead(buttonPin_SET) == LOW);
-  }
-
-  //Left Button
-  if (digitalRead(buttonPin_LFT) == LOW) {
-    delay(250);
-    Serial.println("Left Pin Is Pressed.");
-   /*if ( mode < 3 )
+    newsel = sel;
+    if ((sel == 0) && (digitalRead(buttonPin_SET) == LOW))        //paatern 1
     {
-      mode = mode + 8;
+      delay(100);
+      option = 3;
+      pattern_1();                             // required else code will auto execute
     }
-    else
-      -- mode;
-     */ 
-      switch (mode) {
-        case 0: mode = 16;
-        break;
-        case 1: 
-        mode = 16;
-        break;
-        case 2:
-        mode = 1;
-        break;
-        case 3: 
-        mode = 2;
-        break;
-        case 4 : 
-        mode = 3;
-        break;
-        case 5:
-        mode = 4;
-        break;
-        case 6: 
-        mode = 10;
-        break;
-        case 7: 
-        mode = 6;
-        break;
-        case 8: 
-        mode = 7;
-        break;
-        case 9: 
-        mode = 8;
-        break;
-        case 10: 
-        mode = 9;
-        break;
-        case 11: 
-        mode = 1;
-        break;
-        case 12:
-        mode = 1;
-        break;
-        case 13: 
-        mode = 4;
-        break;
-        case 14:
-        mode = 4;
-        break;
-        case 15:
-        mode = 4;
-        break;
-        case 16:
-        mode = 13;
-        break; 
-        case 17:
-        mode = 13;
-        break; 
-      }
-    updatemenu();
-    Serial.print(mode);
-    while (digitalRead(buttonPin_LFT) == LOW);
+    else if ((sel == 1) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
+    {
+      option = 4;
+      pattern_2();                             // required else code will auto execute
+    }
+    else if ((sel == 2) && (digitalRead(buttonPin_SET) == LOW))   //customise option
+      option = 5;
+    delay(100);
   }
 
-  //Right Button
-  if (digitalRead(buttonPin_RHT) == LOW) {
-    delay(250);
-    Serial.println("Right Pin Is Pressed.");
-    /*if (mode > 9 )
-      mode = mode - 8;
-    else
-      ++ mode ;
-      */
-
-        switch (mode) {
-        case 0: mode = 1;
-        break;
-        case 1: 
-        mode = 2;
-        break;
-        case 2:
-        mode = 3;
-        break;
-        case 3: 
-        mode = 4;
-        break;
-        case 4 : 
-        mode = 13;
-        break;
-        case 5:
-        mode = 1;
-        break;
-        case 6: 
-        mode = 7;
-        break;
-        case 7: 
-        mode = 8;
-        break;
-        case 8: 
-        mode = 9;
-        break;
-        case 9: 
-        mode = 10;
-        break;
-        case 10: 
-        mode = 6;
-        break;
-        case 11: 
-        mode = 3;
-        break;
-        case 12:
-        mode = 3;
-        break;
-        case 13: 
-        mode = 16;
-        break;
-        case 14:
-        mode = 16;
-        break;
-        case 15:
-        mode = 16;
-        break;
-        case 16:
-        mode = 1;
-        break; 
-        case 17:
-        mode = 1;
-        break; 
-      }
-    updatemenu();
-    while (digitalRead(buttonPin_RHT) == LOW);
+  // selection rpm page
+  if ((option == 5))
+  {
+    selec = getupdown (3, selec);
+    if (selec != newselec) {
+      choice(3, option_choice1, selec);         //rpm / clockwise / anticlockwise
+    }
+    newselec = selec;
+    if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))        //rpm
+    {
+      delay (100);
+      suboption = 0;
+      option = -1;
+      do {
+        //subscreenoption();
+        rpm_option();
+        dataupdates(selec);                     // increase / decrease rpm
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 5;
+          selec = 1;                            // go to clockwise option
+          break;
+        }
+      } while (option = -1);
+    }
+    else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))     //clockwise
+    {
+      delay (100);
+      suboption = 1;
+      option = -1;
+      do {
+        clockwise_option();
+        dataupdates(selec);                      // increase / decrease clockwise
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 5;
+          selec = 2;                              // go to anticlockwise option
+          break;
+        }
+      } while (option = -1);
+    }
+    else if ((selec == 2) && (digitalRead(buttonPin_SET) == LOW))      // anti clockwise
+    {
+      delay (100);
+      suboption = 2;
+      option = -1;
+      do {
+        //subscreenoption();
+        anticlockwise_option();
+        dataupdates(selec);                          // increase / decrease anti clockwise
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 6;
+          selec = 0;                                // go to delay option
+          break;
+        }
+      } while (option = -1);
+    }
   }
 
-  //Down Button
-  if (digitalRead(buttonPin_DWN) == LOW) {
-    delay(250);
-    if (mode == 2) {                               //Selection Page 2
-      mode = 11;
-     // selection_pat2();
+  //selection delay page
+  if ((option == 6))
+  {
+    delay(200);
+    sele = getupdown (2, sele);
+    if (sele != newsele) {
+      choice(2, option_choice2, sele);                                 // delay
     }
-    else if (mode == 11 ) {                        //Selection Page 3
-      mode = 12;
-     // selection_custom();
-    }
-    else if (mode == 12 ) {                        //Selection Page 1
-      mode = 2;
-     // selection_pat1();
-    }
+    newsele = sele;
 
-    if (mode == 13) {                               //Selection Page 2
-      mode = 14;
-     
+    //selectioncase2();
+    if ((sele == 0) && (digitalRead(buttonPin_SET) == LOW))
+    {
+      delay (100);
+      suboption = 3;
+      option = -1;
+      do {
+        delay_option();
+        //subscreenoption();
+        dataupdates(3);                             // increase / decrease delay
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 6;                               // go to cycle option
+          sele = 1;
+          break;
+        }
+      } while (option = -1);
     }
-    else if (mode == 14 ) {                       
-      mode = 15;
-     
+    else if ((sele == 1) && (digitalRead(buttonPin_SET) == LOW))        //cycle
+    {
+      delay (100);
+      suboption = 4;
+      option = -1;
+      do {
+        //subscreenoption();
+        cycle_option();
+        dataupdates(4);                             // increase / decrease cycle
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          option = 7;
+          custom();                                 // go to customise execution page
+          break;
+        }
+      } while (option = -1);
     }
-    else if (mode == 15 ) {                        
-      mode = 13;
-     
-    }
-
-    if (mode == 16) {                               
-      mode = 17;
-     
-    }
-    else if (mode == 17 ) {                        
-      mode = 16;
-     
-    }
+  }
   
-updatemenu();
-    //decrease RPM
-    if (mode == 6 && rpm > 0) {
-      rpm = rpm - 50;
-      state (0, key);
-      tft.setCursor(40, 75);
-      tft.print(rpm);;
-    }
-
-    //decrease clockwise
-    else if (mode == 7 && acw > 0) {
-      acw = acw - 1;
-      state (1, key);
-      tft.setCursor(50, 80);
-      tft.print(acw);
-    }
-
-    //decrease delay
-    else if (mode == 8 && dly > 0) {
-      dly = dly - 100;
-      state (2, key);
-      tft.setCursor(50, 75);
-      tft.print(dly);
-    }
-
-    //decrease anti clockwise
-    else if (mode == 9 && cw > 0) {
-      cw = cw - 1;
-      state (3, key);
-      tft.setCursor(50, 75);
-      tft.print(cw);
-    }
-
-    //cycle
-    else if (mode == 10 && cyc > 0) {
-      cyc = cyc - 1;
-      state (4, key);
-      tft.setCursor(50, 75);
-      tft.print(cyc);
-    }
-    Serial.println("Down Pin Is Pressed.");
-    while (digitalRead(buttonPin_DWN) == LOW);
+  // pattern 1 execution
+  if ((option  == 3) && (digitalRead(buttonPin_SET) == LOW))
+  {
+    tft.fillScreen(BLACK);
+    tft.setTextSize(2);
+    tft.setCursor(30, 35);
+    tft.print(F("Executing \n  Pattern 1"));
+    motorcode1();
+    pattern_1();
+    Serial.print("code");
   }
- 
-  //Up Button
-  if (digitalRead(buttonPin_UP) == LOW) {
-    delay(250);
-    if (mode == 2) {                               //Selection Page 3
-      mode = 12;
-      selection_custom();
-    }
-    else if (mode == 12 ) {                        //Selection Page 2
-      mode = 11;
-      selection_pat2();
-    }
-    else if (mode == 11 ) {                        //Selection Page 1
-      mode = 2;
-      selection_pat1();
-    }
-
-if (mode == 13) {                               //Selection Page 2
-      mode = 15;
-     
-    }
-    else if (mode == 14 ) {                       
-      mode = 13;
-     
-    }
-    else if (mode == 15 ) {                        
-      mode = 14;
-     
-    }
-
-    if (mode == 16) {                               
-      mode = 17;
-     
-    }
-    else if (mode == 17 ) {                        
-      mode = 16;
-     
-    }
-
-     updatemenu();
-    //increase RPM
-    if (mode == 6 ) {
-      rpm = rpm + 50;
-      state (0, key);
-      tft.setCursor(40, 75);
-      tft.print(rpm);;
-    }
-
-    //increase anti clockwise
-    else if (mode == 7) {
-      acw = acw + 1;
-      state (1, key);
-      tft.setCursor(50, 80);
-      tft.print(acw);
-    }
-
-    //increase delay
-    else if (mode == 8 ) {
-      dly = dly + 100;
-      state (2, key);
-      tft.setCursor(50, 75);
-      tft.print(dly);
-    }
-
-    //increase clockwise
-    else if (mode == 9 ) {
-      cw = cw + 1;
-      state (3, key);
-      tft.setCursor(50, 75);
-      tft.print(cw);
-    }
-
-    //increase cycle
-    else if (mode == 10 ) {
-      cyc = cyc + 1;
-      state (4, key);
-      tft.setCursor(50, 75);
-      tft.print(cyc);
-    }
-    Serial.println("Up Pin Is Pressed.");
-    while (digitalRead(buttonPin_UP) == LOW);
+  
+  // pattern 2 execution
+  if ((option  == 4) && (digitalRead(buttonPin_SET) == LOW))
+  {
+    tft.fillScreen(BLACK);
+    tft.setTextSize(2);
+    tft.setCursor(30, 35);
+    tft.print(F("Executing \n  Pattern 2"));
+    motorcode2();
+    pattern_2();
   }
-  resetBtn();
-
-
+  
+  // customise execution
+  if ((option == 7) && (digitalRead(buttonPin_SET) == LOW))
+  {
+    tft.fillScreen(BLACK);
+    tft.setTextSize(2);
+    tft.setCursor(30, 35);
+    tft.print(F("Executing \n  Customise"));
+    customcode(rpm, acw, dly, cw, cyc);
+    custom();
+  }
 
 }
