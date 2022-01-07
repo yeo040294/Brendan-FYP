@@ -33,11 +33,6 @@ void instructs() {
 }
 
 
-//Selection Page
-void selection_pat1() {
-  choice(3, pat_choice,0);
-}
-
 //Pattern1
 void pattern_1() {
   menu(6, pattern1);
@@ -74,15 +69,13 @@ void custom() {
   tft.setCursor(120, 50);
   tft.print(rpm);
   tft.setCursor(120, 80);
-  tft.print(cw);
+  tft.print(acw);
   tft.setCursor(120, 70);
   tft.print(dly);
   tft.setCursor(120, 60);
-  tft.print(acw);
+  tft.print(cw);
   tft.setCursor(120, 90);
   tft.print(cyc);
-  tft.drawBitmap (10, 70, left_15, 15, 15, BLACK, WHITE);
-  tft.drawBitmap (135, 70, right_15, 15, 15, BLACK, WHITE);
 }
 
 //RPM adjustment
@@ -118,34 +111,4 @@ void cycle_option() {
   state (4, key);
   tft.setCursor(50, 75);
   tft.print(cyc);
-}
-
-//Selection Page 2
-void selection_pat2() {
-   choice(3, pat_choice,1); 
-}
-
-//Selection Page 3
-void selection_custom() {
-choice(3, pat_choice,2);
-}
-
-void rpmoption_1() {
-  choice(3,option_choice1,0);
-}
-
-void clockoption_1() {
-  choice(3,option_choice1,1);
-}
-
-void antioption_1() {
-  choice(3,option_choice1,2);
-}
-
-void delayoption_2() {
-  choice(2,option_choice2,0);
-}
-
-void cycleoption_2() {
-  choice(2,option_choice2,1);
 }
