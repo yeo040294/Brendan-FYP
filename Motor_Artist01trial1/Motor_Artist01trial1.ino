@@ -150,8 +150,8 @@ const char string22[] PROGMEM = "Cycle";
 const char *const mainmenu[] PROGMEM = {welcome};
 const char *const pat_choice[] PROGMEM = {pat1, pat2, pat3, cus};
 const char *const motor_choice[] PROGMEM = {string10, string11, string12, string13};
-const char *const option_choice1[] PROGMEM = {string18, string19, string20};
-const char *const option_choice2[] PROGMEM = {string21, string22};
+const char *const option_choice1[] PROGMEM = {string18, string20, string21, string22};
+//const char *const option_choice2[] PROGMEM = {};
 const char *const pattern1[] PROGMEM = {pat1, string1, string2, string3, string4, string5};
 const char *const pattern2[] PROGMEM = {pat2, string1, string2, string3, string4, string5};
 const char *const pattern3[] PROGMEM = {pat3, string1, string2, string3, string4, string5};
@@ -263,7 +263,7 @@ void mainscreenoption()
         break;
       case 6: clockoption_1();        
         break;
-      case 7: rpmoption_2();         
+      case 7: motor1();         
         break;
       case 8:
         custom1();
@@ -465,9 +465,9 @@ Serial.print(selec);
   // selection rpm page
   if ((option == 6))
   {
-    selec = getupdown (3, selec);
+    selec = getupdown (4, selec);
     if (selec != newselec) {
-      choice(3, option_choice1, selec);         // clockwise / linear / anticlockwise
+      choice(4, option_choice1, selec);         // clockwise / linear / anticlockwise
     }
     newselec = selec;
     if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))        //clockwise
@@ -490,116 +490,9 @@ Serial.print(selec);
 
     else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))     //linear
     {
+     
       delay (100);
-      //suboption = 1;
-      option = -1;
-
-      do {
-        se = getupdown (4, se);
-        if (se != newse) {
-          choice(4, motor_choice, se);
-        }
-        newse = se;
-
-        if ((se == 0) && (digitalRead(buttonPin_SET) == LOW))        //motor1
-        {
-          delay (100);
-          suboption = -1;
-          //option = -1;
-          do {
-            //subscreenoption();
-            motor1_option();
-            dataupdates(4);                     // increase / decrease motor1
-            if (digitalRead(buttonPin_SET) == LOW)
-            {
-              delay(100);
-              suboption = 1;                        // go to motor 2 option
-              se = 1;
-              break;
-            }
-          } while (suboption = -1);
-        }
-
-        else if ((se == 1) && (digitalRead(buttonPin_SET) == LOW))      // motor2
-        {
-        
-                    delay (100);
-                    suboption = -1;
-                    option = -1;
-                    do {
-                      //subscreenoption();
-                      motor2_option();
-                      dataupdates(5);                          // increase / decrease motor 2
-                      if (digitalRead(buttonPin_SET) == LOW)
-                      {
-                        delay(100);
-                        suboption = 1;
-                        se = 2;                             // go to motor 3 option
-                        break;
-                      }
-                    } while (suboption = -1);
-          
-        }
-
-
-        else if ((se == 2) && (digitalRead(buttonPin_SET) == LOW))      // motor 3
-        {
-
-
-          delay (100);
-          suboption = -1;
-          option = -1;
-          do {
-            //subscreenoption();
-            motor3_option();
-            dataupdates(6);                          // increase / decrease motor 3
-            if (digitalRead(buttonPin_SET) == LOW)
-            {
-              delay(100);
-              suboption = 1;
-              se = 3;                            // go to motor 4
-              break;
-            }
-          } while (suboption = -1);
-        }
-
-        else if ((se == 3) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
-        {
-
-
-          delay (100);
-          suboption = -1;
-          option = -1;
-          do {
-            //subscreenoption();
-            motor4_option();
-            dataupdates(7);                          // increase / decrease motor 4
-            if (digitalRead(buttonPin_SET) == LOW)                                      //ERROR unsure how to get out of the loop  to go :  option 6 selec 2 page (previous page) Linear page
-            {
-              delay(100);
-             
-                                                                                   
-                                         // go to delay option
-
-              option = 6;
-              selec =2;
-             // suboption = 1;
-             // se = 0;
-              break;
-            }
-          } while (suboption = -1);
-         
-        }
-        
-      } while (option = -1);
-    }
-
-    else if ((selec == 2) && (digitalRead(buttonPin_SET) == LOW))      // anti clockwise
-    {
-
-
-      delay (100);
-      suboption = 2;
+      //suboption = 2;
       option = -1;
       do {
         //subscreenoption();
@@ -608,41 +501,30 @@ Serial.print(selec);
         if (digitalRead(buttonPin_SET) == LOW)
         {
           option = 6;
-          selec = 0;                                // go to rpm option
+          selec = 2;                                // go to rpm option
           break;
         }
       } while (option = -1);
     }
-  }
 
-  if ((option == 7))
-  {
-    delay(200);
-    sele = getupdown (2, sele);
-    if (sele != newsele) {
-      choice(2, option_choice2, sele);                                 // rpm
-    }
-    newsele = sele;
-
-    //selectioncase2();
-    if ((sele == 0) && (digitalRead(buttonPin_SET) == LOW))
+  else if ((selec == 2) && (digitalRead(buttonPin_SET) == LOW))
     {
       delay (100);
       //suboption = 3;
       option = -1;
       do {
         rpm_option();
-        //subscreenoption();
+        
         dataupdates(0);                             // increase / decrease rpm
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          option = 7;                               // go to cycle option
-          sele = 1;
+          option = 6;                               // go to cycle option
+          selec = 3;
           break;
         }
       } while (option = -1);
     }
-    else if ((sele == 1) && (digitalRead(buttonPin_SET) == LOW))        //cycle
+    else if ((selec == 3) && (digitalRead(buttonPin_SET) == LOW))        //cycle
     {
       delay (100);
       //suboption = 4;
@@ -653,12 +535,116 @@ Serial.print(selec);
         dataupdates(3);                             // increase / decrease cycle
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          option = 8;
-          custom1();                                 // go to customise execution page
+          option = 7;
+          se =0;                                // go to 
           break;
+          
         }
       } while (option = -1);
     }
+  }
+
+  if ((option == 7))
+  {
+/*    delay(200);
+    sele = getupdown (2, sele);
+    if (sele != newsele) {
+      choice(2, option_choice2, sele);                                 // rpm
+    }
+    newsele = sele;
+
+    //selectioncase2();
+ */ 
+  delay(200);
+  se = getupdown (4, se);
+        if (se != newse) {
+          choice(4, motor_choice, se);
+        }
+        newse = se;
+
+        if ((se == 0) && (digitalRead(buttonPin_SET) == LOW))        //motor1
+        {
+          delay (100);
+          option = -1;
+          //option = -1;
+          do {
+            //subscreenoption();
+            motor1_option();
+            dataupdates(4);                     // increase / decrease motor1
+            if (digitalRead(buttonPin_SET) == LOW)
+            {
+              delay(100);
+              option = 7;                        // go to motor 2 option
+              se = 1;
+              break;
+            }
+          } while (option = -1);
+        }
+
+        else if ((se == 1) && (digitalRead(buttonPin_SET) == LOW))      // motor2
+        {
+        
+                    delay (100);
+                    //suboption = -1;
+                    option = -1;
+                    do {
+                      //subscreenoption();
+                      motor2_option();
+                      dataupdates(5);                          // increase / decrease motor 2
+                      if (digitalRead(buttonPin_SET) == LOW)
+                      {
+                        delay(100);
+                        option = 7;
+                        se = 2;                             // go to motor 3 option
+                        break;
+                      }
+                    } while (option = -1);
+          
+        }
+
+
+        else if ((se == 2) && (digitalRead(buttonPin_SET) == LOW))      // motor 3
+        {
+
+
+          delay (100);
+          //suboption = -1;
+          option = -1;
+          do {
+            //subscreenoption();
+            motor3_option();
+            dataupdates(6);                          // increase / decrease motor 3
+            if (digitalRead(buttonPin_SET) == LOW)
+            {
+              delay(100);
+              option = 7;
+              se = 3;                            // go to motor 4
+              break;
+            }
+          } while (option = -1);
+        }
+
+        else if ((se == 3) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
+        {
+      
+            
+          delay (100);
+          //suboption = -1;
+          option = -1;
+          do {
+            //subscreenoption();
+            motor4_option();
+            dataupdates(7);                          // increase / decrease motor 4
+            if (digitalRead(buttonPin_SET) == LOW)                                      //ERROR unsure how to get out of the loop  to go :  option 6 selec 2 page (previous page) Linear page
+            {
+              delay(100);
+              option = 8;
+             
+              break;
+            }
+          } while (option = -1);
+
+}
   }
 
 

@@ -198,28 +198,28 @@ choice(4,motor_choice, 3);
 
 }
 void clockoption_1() {
-choice(3,option_choice1,0); 
+choice(4,option_choice1,0); 
 
 }
 
-void Linear_1() {
+/*void Linear_1() {
 choice(3,option_choice1,1);
 
-}
+}*/
 
 void antioption_1() {
-choice(3,option_choice1,2);
+choice(4,option_choice1,2);
 
 }
 
 void rpmoption_2() {
-choice(2,option_choice2,0);
+choice(4,option_choice1,3);
 
 
 }
 
 void cycleoption_2() {
-choice(2,option_choice2,1);
+choice(4,option_choice1,4);
  
 }
 
