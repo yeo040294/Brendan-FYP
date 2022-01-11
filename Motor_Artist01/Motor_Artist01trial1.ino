@@ -108,7 +108,6 @@ int lin3 = 0;
 int lin4 = 0;
 int acw = 0;
 int cyc = 1;
-int stringi =0;
 
 
 char buffer[50];
@@ -161,11 +160,6 @@ const char *const customise1[] PROGMEM = {cus1, string1, string2, string3, strin
 const char *const customise2[] PROGMEM = {cus2, string1, string4, string3, string2, string5};
 const char *const key[] PROGMEM = {string6, string7, string8, string9};
 const char *const motorkey[] PROGMEM = {string14, string15, string16, string17};
-//const char *const custa[10] PROGMEM = {};
-
-
-
-char *myStrings[10] ;
 
 void menu(int menu_opt ,  const char *const string_table[]) {
   tft.fillScreen(BLACK);
@@ -437,7 +431,7 @@ int dataupdates( int opt)
 void loop () {
 
 //  Serial.println(option);
-//Serial.print(selec);
+Serial.print(selec);
   mainscreenoption();
   // selection pattern page
   if ((option == 2))
@@ -473,21 +467,12 @@ void loop () {
   {
     selec = getupdown (4, selec);
     if (selec != newselec) {
-      choice(4, option_choice1, selec);         // clockwise / anticlockwise / rpm / cycle
+      choice(4, option_choice1, selec);         // clockwise / linear / anticlockwise
     }
     newselec = selec;
     if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))        //clockwise
     {
-      delay(200);
-      myStrings[stringi] = "Clockwise: ";
-      tft.setCursor(20, 55 + selec * 20 - 20);
-      tft.print(stringi);
-      Serial.println(myStrings[stringi]);
-       
-      Serial.println(stringi);
-       stringi++;
-    
-     /* delay (100);
+      delay (100);
       //suboption = 0;
       option = -1;
       do {
@@ -501,21 +486,11 @@ void loop () {
           break;
         }
       } while (option = -1);
-      */
     }
 
-    else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))     //anticlockwise
+    else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))     //linear
     {
      
-      
-      delay(200);
-     myStrings[stringi] = "Anti-Clockwise: ";
-      tft.setCursor(20, 55 + selec * 20 - 20);
-      tft.print(stringi);
-      Serial.println(myStrings[stringi]);
-      Serial.println(stringi);
-       stringi++;  
-     /*
       delay (100);
       //suboption = 2;
       option = -1;
@@ -530,19 +505,10 @@ void loop () {
           break;
         }
       } while (option = -1);
-    */
     }
 
   else if ((selec == 2) && (digitalRead(buttonPin_SET) == LOW))
     {
-      delay(200);
-     myStrings[stringi] = "RPM (min 80): ";
-      tft.setCursor(20, 55 + selec * 20 - 20);
-      tft.print(stringi);
-      Serial.println(myStrings[stringi]);
-      Serial.println(stringi);
-       stringi++;  
-      /*
       delay (100);
       //suboption = 3;
       option = -1;
@@ -557,19 +523,9 @@ void loop () {
           break;
         }
       } while (option = -1);
-      */
     }
     else if ((selec == 3) && (digitalRead(buttonPin_SET) == LOW))        //cycle
     {
-      delay(200);
-     myStrings[stringi] = "RPM (min 80): ";
-      tft.setCursor(20, 55 + selec * 20 - 20);
-      tft.print(stringi);
-    for (int i = 0; i < 6; i++) {
-    Serial.println(myStrings[stringi]);
-    }
-       stringi++; 
-      /*
       delay (100);
       //suboption = 4;
       option = -1;
@@ -585,14 +541,20 @@ void loop () {
           
         }
       } while (option = -1);
-      */
     }
-    
   }
 
   if ((option == 7))
   {
+/*    delay(200);
+    sele = getupdown (2, sele);
+    if (sele != newsele) {
+      choice(2, option_choice2, sele);                                 // rpm
+    }
+    newsele = sele;
 
+    //selectioncase2();
+ */ 
   delay(200);
   se = getupdown (4, se);
         if (se != newse) {
