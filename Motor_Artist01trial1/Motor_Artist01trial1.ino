@@ -152,7 +152,8 @@ const char string22[] PROGMEM = "Cycle";
 const char *const mainmenu[] PROGMEM = {welcome};
 const char *const pat_choice[] PROGMEM = {pat1, pat2, pat3, cus};
 const char *const motor_choice[] PROGMEM = {string10, string11, string12, string13};
-const char *const option_choice1[] PROGMEM = {string18, string20, string21, string22};
+//const char *const option_choice1[] PROGMEM = {string18, string20, string21, string22};
+const char *const option_choice1[] PROGMEM = {string18, string20, string21, string22,string10, string11, string12, string13};
 //const char *const option_choice2[] PROGMEM = {};
 const char *const pattern1[] PROGMEM = {pat1, string1, string2, string3, string4, string5};
 const char *const pattern2[] PROGMEM = {pat2, string1, string2, string3, string4, string5};
@@ -219,19 +220,32 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
       tft.drawRect(28, 108, 60, 18, WHITE);
   }
   else  {
-    for (int i = 0; i < choice_opt; i++)
+    
+       for (int i = 0; i < choice_opt; i++)
     {
       tft.setTextSize(1);
-      tft.setCursor(30, 60 + i * 30 - 30);
+      tft.setCursor(30, 30 + i * 18 - 18);
       strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
       tft.println(buffer);
     }
     if (select == 0)
-      tft.drawRect(28, 23, 60, 18, WHITE);
+      tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
     else if (select == 1)
-      tft.drawRect(28, 53, 60, 18, WHITE);
-    else
-      tft.drawRect(28, 83, 97, 18, WHITE);
+      tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+    else if (select == 2)
+      tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+    else if (select == 3)
+      tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+      else if (select == 4)
+      tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+      else if (select == 5)
+      tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+      else if (select == 6)
+       tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+       else if (select == 7)
+       tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
+       else 
+       tft.drawRect(28, 30 + select * 18 - 18 -7, 60, 18, WHITE);
   }
   tft.drawBitmap (90, 5, up_15, 15, 15, WHITE, BLACK);
   tft.drawBitmap (90, 140, down_15, 15, 15, WHITE, BLACK);
@@ -276,10 +290,10 @@ void mainscreenoption()
       case 5: pattern_3();
         break;
       case 6: selec = 0;
-      choice(4,option_choice1,selec); 
+      choice(8,option_choice1,selec); 
         break;
-      case 7: se = 0;
-      choice(4,motor_choice, selec);
+      case 7: //se = 0;
+      //choice(4,motor_choice, selec);
         break;
       case 8:
         custom1();
@@ -481,9 +495,9 @@ void loop () {
   // selection rpm page
   if ((option == 6))
   {
-    selec = getupdown (4, selec);
+    selec = getupdown (8, selec);
     if (selec != newselec) {
-      choice(4, option_choice1, selec);         // clockwise / anticlockwise / rpm / cycle
+      choice(8, option_choice1, selec);         // clockwise / anticlockwise / rpm / cycle
     }
     newselec = selec;
     if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))        //clockwise
@@ -582,8 +596,8 @@ void loop () {
         dataupdates(3);                             // increase / decrease cycle
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          option = 7;
-          selec = 0;                               // go to
+          option = 6;
+          selec = 4;                               // go to
           break;
 
         }
@@ -591,9 +605,97 @@ void loop () {
 
     }
 
+    else if ((selec == 4) && (digitalRead(buttonPin_SET) == LOW))        //motor1
+    {
+
+
+      delay (100);
+      //suboption = 4;
+      option = -1;
+       do {
+        //subscreenoption();
+        motor1_option();
+        dataupdates(4);                     // increase / decrease motor1
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          delay(100);
+          option = 6;                        // go to motor 2 option
+          selec = 5;
+          break;
+        }
+      } while (option = -1);
+
+    }
+
+     else if ((selec == 5) && (digitalRead(buttonPin_SET) == LOW))        //motor2
+    {
+
+
+      delay (100);
+      //suboption = 4;
+      option = -1;
+            do {
+        //subscreenoption();
+        motor2_option();
+        dataupdates(5);                          // increase / decrease motor 2
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          delay(100);
+          option = 6;
+          selec = 6;                             // go to motor 3 option
+          break;
+        }
+      } while (option = -1);
+
+    }
+    else if ((selec == 6) && (digitalRead(buttonPin_SET) == LOW))        //motor3
+    {
+
+
+      delay (100);
+      //suboption = 4;
+      option = -1;
+       do {
+        //subscreenoption();
+        motor3_option();
+        dataupdates(6);                          // increase / decrease motor 3
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          delay(100);
+          option = 6;
+          selec = 7;                            // go to motor 4
+          break;
+        }
+      } while (option = -1);
+
+    }
+
+    else if ((selec == 7) && (digitalRead(buttonPin_SET) == LOW))        //motor4
+    {
+
+
+      delay (100);
+      //suboption = 4;
+      option = -1;
+     do {
+        //subscreenoption();
+        motor4_option();
+        dataupdates(7);                          // increase / decrease motor 4
+        if (digitalRead(buttonPin_SET) == LOW)                                      
+        {
+          delay(200);
+          option = 8;
+
+          break;
+        }
+      } while (option = -1);
+
+    }
+
+
   }
 
-  if ((option == 7))
+/*  if ((option == 7))
   {
 
     delay(200);
@@ -678,7 +780,7 @@ void loop () {
         dataupdates(7);                          // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)                                      //ERROR unsure how to get out of the loop  to go :  option 6 selec 2 page (previous page) Linear page
         {
-          delay(100);
+          delay(300);
           option = 8;
 
           break;
@@ -687,6 +789,7 @@ void loop () {
 
     }
   }
+  */
 
  // pattern 1 execution
   if ((option  == 3) && (digitalRead(buttonPin_SET) == LOW))
