@@ -13,8 +13,8 @@ void instructs() {
   tft.fillScreen(BLACK);
   tft.drawBitmap (135, 70, right_15, 15, 15, BLACK, WHITE);
   //tft.drawBitmap (10,70, left_arrow, 20, 20, BLACK, WHITE);
-  tft.setTextSize(2);
-  tft.setCursor(5, 35);
+  tft.setTextSize(1);
+  tft.setCursor(30, 20);
   tft.print(F("Instruction"));
   tft.drawBitmap (30, 55, right_15, 15, 15, BLACK, WHITE);
   tft.drawBitmap (10, 55, left_15, 15, 15, BLACK, WHITE);
@@ -43,15 +43,15 @@ choice(4,pat_choice, 0);
 void pattern_1() {
 
   menu(6, pattern1);
-  tft.setCursor(120, 50);
+  tft.setCursor(100, 50);
   tft.print(100);
-  tft.setCursor(120, 60);
+  tft.setCursor(100, 60);
   tft.print(2);
-   tft.setCursor(120, 70);
+   tft.setCursor(100, 70);
   tft.print(2);
-    tft.setCursor(120, 80);
+    tft.setCursor(100, 80);
   tft.print(3);
-   tft.setCursor(120, 90);
+   tft.setCursor(100, 90);
   tft.print(3);
  
 }
@@ -59,15 +59,15 @@ void pattern_1() {
 void pattern_2() {
 
   menu(6, pattern2);
-  tft.setCursor(120, 50);
+  tft.setCursor(100, 50);
   tft.print(110);
-  tft.setCursor(120, 60);
+  tft.setCursor(100, 60);
   tft.print(3);
-  tft.setCursor(120, 70);
+  tft.setCursor(100, 70);
   tft.print(2);
-  tft.setCursor(120, 80);
+  tft.setCursor(100, 80);
   tft.print(4);
-  tft.setCursor(120, 90);
+  tft.setCursor(100, 90);
   tft.print(2);
   
 }
@@ -75,15 +75,15 @@ void pattern_2() {
 void pattern_3() {
 
  menu(6, pattern3);
- tft.setCursor(120, 50);
+ tft.setCursor(100, 50);
   tft.print(130);
-  tft.setCursor(120, 60);
+  tft.setCursor(100, 60);
   tft.print(3);
-  tft.setCursor(120, 70);
+  tft.setCursor(100, 70);
   tft.print(1);
-  tft.setCursor(120, 80);
+  tft.setCursor(100, 80);
   tft.print(3);
-  tft.setCursor(120, 90);
+  tft.setCursor(100, 90);
   tft.print(4);
   
 
@@ -93,9 +93,9 @@ void pattern_3() {
 
 void custom1() {
   menu(6, customise1);
-  tft.setCursor(120, 50);
+  tft.setCursor(100, 50);
   tft.print(rpm);
-  tft.setCursor(120, 60);
+  tft.setCursor(100, 60);
   tft.print(cw);
   tft.setCursor(85, 70);
   tft.print(lin1);
@@ -105,9 +105,9 @@ void custom1() {
   tft.print(lin3);
   tft.print(",");
   tft.print(lin4);
-  tft.setCursor(120, 80);
+  tft.setCursor(100, 80);
   tft.print(acw);
-  tft.setCursor(120, 90);
+  tft.setCursor(100, 90);
   tft.print(cyc);
  
 }
@@ -256,9 +256,9 @@ state(3, motorkey);
 
 void custom2() {
   menu(6, customise2);
-  tft.setCursor(120, 50);
+  tft.setCursor(100, 50);
   tft.print(rpm);
-  tft.setCursor(120, 80);
+  tft.setCursor(100, 80);
   tft.print(cw);
   tft.setCursor(85, 70);
   tft.print(lin1);
@@ -268,9 +268,9 @@ void custom2() {
   tft.print(lin3);
   tft.print(",");
   tft.print(lin4);
-  tft.setCursor(120, 60);
+  tft.setCursor(100, 60);
   tft.print(acw);
-  tft.setCursor(120, 90);
+  tft.setCursor(100, 90);
   tft.print(cyc);
  
 }
