@@ -120,15 +120,14 @@ int linear4(int L4) {
 int clockw(int clw)
 {
  stepper.moveTo(8 * 200 *clw);
- stepper.runToPosition();
+  return (8 * 200 *clw);
 }
 
 //anti clockwise
 int anticlockw(int aclw)
 {
   stepper.moveTo(8 * 200 *aclw*-1);
-  stepper.runToPosition();
-  
+  return (8 * 200 *aclw*-1);
 }
 
 //adjustable code
@@ -137,38 +136,56 @@ int motorcode7 (int spd, int clw, int L1, int L2, int L3, int L4, int aclw, int 
   stepper.setAcceleration(spd);
   while (rounds != 0 )
   {
+    int steps = 0;
+    bool lin1=false;
+    bool lin2=false;
+    bool lin3=false;
+    bool lin4=false;
     for (int x = 0; x < strlen(testing); x++)
     {
       delay(100);
       if (testing[x] == 'c')
       {
         Serial.println("clockwise");
-        clockw(clw);
+        steps = clockw(clw);
       }
       else if (testing[x] == 'a')
       {
         Serial.println("anticlockwise");
-        anticlockw(aclw);
+        steps = anticlockw(aclw);
       }
       else if (testing[x] == 'w')
       {
         Serial.println("motor1");
-        linear1(L1);
+        //linear1(L1); 
+        lin1 = true;
       }
       else if (testing[x] == 'x')
       {
         Serial.println("motor2");
-        linear2(L2);
+        //linear2(L2);
+        lin2 = true;
       }
       else if (testing[x] == 'y')
       {
         Serial.println("motor3");
-        linear3(L3);
+        //linear3(L3);
+        lin3 = true;
       }
       else if (testing[x] == 'z')
       {
         Serial.println("motor4");
-        linear4(L4);
+        //linear4(L4); 
+        lin4 - true;
+      }
+      int current_step = 0;
+      while (stepper.getDistance() != 0) {
+        stepper.run();
+        if (current_step == steps / (lin1+lin2+lin3+lin4)) {
+          // every step / lin1,2,3,4
+          // execute the linear piston
+        }
+        current_step++;
       }
     }
     rounds--;
