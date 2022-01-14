@@ -1,164 +1,90 @@
 //motorcode 1
 void motorcode1() {
   int trial = 0;
-    while (trial < 3) {
-  stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != 8 * 10 * 200 )
-  {
-    stepper.setSpeed(8*500);
-    stepper.runSpeed();
-  }
-
-  relay_SetStatus(OFF, OFF , ON, OFF); //turn off RELAY_1
+  while (trial < 3) {
+    stepper.setAcceleration(200);
+    stepper.moveTo(8 * 200 * 10);
+    stepper.runToPosition();
+    relay_SetStatus(OFF, OFF , ON, OFF); //turn off RELAY_1
     delay(400);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
     delay(400);//delay 2s0
     relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
     delay(400);//delay 2s0
-     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
     delay(400);//delay 2s0
-    
-  stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != 8* -10 * 200)
-  {
-    stepper.setSpeed(8*-500);
-    stepper.runSpeed();
-  }
-   trial++;
-    
+
+    stepper.moveTo(0);
+    stepper.runToPosition();
+    trial++;
+
   }
 }
 //motor code 2
-void motorcode2() {
+void motorcode2() {    
   int trial = 0;
   while (trial < 2) {
-    
- 
-  stepper.moveTo(8*200*15);
-  stepper.runToPosition();
-   relay_SetStatus(ON, OFF ,OFF , OFF); //turn off RELAY_1
-    delay(400);//delay 2s0
+    stepper.setAcceleration(300);
+    stepper.moveTo(8 * 200 * 10* -1);
+    stepper.runToPosition();
+    relay_SetStatus(ON, OFF , OFF , OFF); //turn off RELAY_1
+    delay(400);
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-    delay(400);//delay 2s0
+    delay(400);
     relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
-    delay(400);//delay 2s0
-     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(400);//delay 2s0
-  delay(400);
-  stepper.moveTo(0);
-  stepper.runToPosition();
-
-  trial++;
-   
+    delay(400);
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(400);
+    stepper.moveTo(0);
+    stepper.runToPosition();
+    trial++;
   }
 }
 
 //motor code 3
 // void motorcode3(int round){
 void motorcode3() {
-  stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != 8 * 10 * 200 )
-  {
-    stepper.setSpeed(8*500);
-    stepper.runSpeed();
-  }
-
-   stepper.moveTo(0);
-  stepper.runToPosition();
-
- stepper.moveTo(8*200*15);
-  stepper.runToPosition();
-
-while (stepper.currentPosition() != 8* -10 * 200)
-  {
-    stepper.setSpeed(8*-500);
-    stepper.runSpeed();
-  }
-}
-// adjustable code for linear motor1
-/*int linear1(int L1) {
-  int x = 0;
-  while (x <  L1) {
-    relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);//delay 2s0
-    relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    delay(200);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    L1--;
-    Serial.print(L1);
-  }
-}
-*/
-int linear1(int L1, int L2, int L3, int L4) {
-  if (L1 != 0)
-  {
-  int x = 0;
-  while (x <  L1) {
-    relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
-    //relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    //delay(200);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
-    L1--;
-    Serial.print(L1);
-  }
-  }
-  if (L2 != 0)
-  {
-    int x = 0;
-  while (x <  L2) {
-    relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_1
-    delay(500);//delay 2s0
-    //relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    //delay(200);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-     delay(500);
-    L2--;
-    Serial.print(L2);
-  }
-  }
-  if (L3 != 0)
-  {
-    int x = 0;
-  while (x <  L3) {
-    relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    delay(500);//delay 2s0
-   // relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-   // delay(200);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-     delay(500);
-    L3--;
-    Serial.print(L3);
-  }
-  
-  }
-
-  if (L4 != 0)
-  {
-    int x = 0;
-  while (x <  L4) {
+   stepper.setAcceleration(500);
+     int trial = 0;
+    while (trial < 2) {
+    stepper.moveTo(8 * 200 * 10* -1);
+    stepper.runToPosition();
+    relay_SetStatus(ON, OFF , OFF , OFF); //turn off RELAY_1
+    delay(400);
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-    delay(500);//delay 2s0
-    //relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    //delay(200);//delay 2s0
+    delay(400);
+    relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
+    delay(400);
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-     delay(500);
-    L4--;
-    Serial.print(L4);
-  }
+    delay(400);
+    stepper.moveTo(0);
+    stepper.runToPosition();
+    trial++;
+    }
+}
+
+// adjustable code for linear motor1
+int linear1(int L1) {
+  int x = 0;
+  while (x <  L1) {
+    relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
+    delay(500);
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(500);
+    L1--;
+    Serial.print(L1);
   }
 }
 
 // adjustable code for linear motor2
-/*int linear2(int L2) {
+int linear2(int L2) {
   int x = 0;
   while (x <  L2) {
-    relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_1
+    relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_2
     delay(500);//delay 2s0
-    //relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
     //delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(500);
     L2--;
     Serial.print(L2);
   }
@@ -170,9 +96,8 @@ int linear3(int L3) {
   while (x <  L3) {
     relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
     delay(500);//delay 2s0
-   // relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-   // delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(500);
     L3--;
     Serial.print(L3);
   }
@@ -184,99 +109,68 @@ int linear4(int L4) {
   while (x <  L4) {
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
     delay(500);//delay 2s0
-    //relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    //delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(500);
     L4--;
     Serial.print(L4);
   }
 }
-*/
-//clockwise 
-int clockw(int clw, int spd)
+
+//clockwise
+int clockw(int clw)
 {
- stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() !=8* clw * 200 )
-  {
-    stepper.setSpeed(8*spd);
-    stepper.runSpeed();
-  }
+ stepper.moveTo(8 * 200 *clw);
+ stepper.runToPosition();
 }
 
-//anti clockwise 
-int anticlockw(int aclw, int spd)
+//anti clockwise
+int anticlockw(int aclw)
 {
-  stepper.setCurrentPosition(0);
-  while (stepper.currentPosition() != 8* aclw * 200 * -1)
-  {
-    stepper.setSpeed(8*spd*-1);
-    stepper.runSpeed();
-  }
+  stepper.moveTo(8 * 200 *aclw*-1);
+  stepper.runToPosition();
+  
 }
-
 
 //adjustable code
-int motorcode5 (int spd, int clw, int L1,int L2, int L3, int L4, int aclw, int rounds)
+int motorcode7 (int spd, int clw, int L1, int L2, int L3, int L4, int aclw, int rounds)
 {
-
- 
-  int newL1 = L1;
-  int newL2 = L2;
-  int newL3 = L3;
-  int newL4 = L4;
+  stepper.setAcceleration(spd);
   while (rounds != 0 )
   {
-    
-    clockw( clw, spd);
-    linear1(L1, L2, L3, L4);
-    anticlockw(aclw , spd);
-    L1 = newL1;
-    L2 = newL2;
-    L3 = newL3;
-    L4 = newL4;
+    for (int x = 0; x < strlen(testing); x++)
+    {
+      delay(100);
+      if (testing[x] == 'c')
+      {
+        Serial.println("clockwise");
+        clockw(clw);
+      }
+      else if (testing[x] == 'a')
+      {
+        Serial.println("anticlockwise");
+        anticlockw(aclw);
+      }
+      else if (testing[x] == 'w')
+      {
+        Serial.println("motor1");
+        linear1(L1);
+      }
+      else if (testing[x] == 'x')
+      {
+        Serial.println("motor2");
+        linear2(L2);
+      }
+      else if (testing[x] == 'y')
+      {
+        Serial.println("motor3");
+        linear3(L3);
+      }
+      else if (testing[x] == 'z')
+      {
+        Serial.println("motor4");
+        linear4(L4);
+      }
+    }
     rounds--;
-    Serial.print("rounds:");
-    Serial.println(rounds);
-    Serial.print("speed:");
-    Serial.println(spd);
-    Serial.print("cw:");
-    Serial.println(clw);
-    Serial.print("cw:");
-    Serial.println(aclw);
-    Serial.println(L1);
-    Serial.println(L2);
-    Serial.println(L3);
-    Serial.println(L4);
-  }
-}
-
-int motorcode6 (int spd, int clw, int L1,int L2, int L3, int L4, int aclw, int rounds)
-{
-
- 
-  int newL1 = L1;
-  int newL2 = L2;
-  int newL3 = L3;
-  int newL4 = L4;
-  while (rounds != 0 )
-  {
-    anticlockw(aclw , spd);
-    linear1(L1,L2,L3,L4);
-    
-    clockw( clw, spd);
-  
-    L1 = newL1;
-    L2 = newL2;
-    L3 = newL3;
-    L4 = newL4;
-    rounds--;
-    Serial.print("rounds:");
-    Serial.println(rounds);
-    Serial.print("speed:");
-    Serial.println(spd);
-    Serial.print("cw:");
-    Serial.println(clw);
-    Serial.print("cw:");
-    Serial.println(aclw);
   }
 }
