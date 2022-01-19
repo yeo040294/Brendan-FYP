@@ -147,24 +147,3 @@ void motor4_option() {
   tft.setCursor(50, 75);
   tft.print(lin4);
 }
-
-/*void custom2() {
-  menu(6, customise2);
-  tft.setCursor(100, 50);
-  tft.print(rpm);
-  tft.setCursor(100, 80);
-  tft.print(cw);
-  tft.setCursor(85, 70);
-  tft.print(lin1);
-  tft.print(",");
-  tft.print(lin2);
-  tft.print(",");
-  tft.print(lin3);
-  tft.print(",");
-  tft.print(lin4);
-  tft.setCursor(100, 60);
-  tft.print(acw);
-  tft.setCursor(100, 90);
-  tft.print(cyc);
-}
-*/

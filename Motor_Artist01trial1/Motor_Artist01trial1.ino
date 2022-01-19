@@ -34,7 +34,7 @@
 #define ON   0
 #define OFF  1
 
-AccelStepper stepper(AccelStepper::DRIVER, STEP, DIR);
+AccelStepper stepper(AccelStepper::DRIVER, STEP, DIR );
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 
 const unsigned char right_arrow [] PROGMEM = {0xff, 0xff, 0xf0, 0xff, 0xff, 0xf0, 0xff, 0x9f, 0xf0, 0xff, 0x8f, 0xf0, 0xff, 0x87, 0xf0, 0xc0, 0x03, 0xf0, 0xc0, 0x00, 0xf0, 0xc0, 0x00, 0x70, 0xc0, 0x00, 0x30, 0xc0, 0x00, 0x70, 0xc0, 0x00, 0xf0, 0xc0, 0x03, 0xf0, 0xff, 0x87, 0xf0, 0xff, 0x8f, 0xf0, 0xff, 0xbf, 0xf0, 0xff, 0xff, 0xf0, 0xff, 0xff, 0xf0, 0xff, 0xff, 0xf0, 0xff, 0xff, 0xf0, 0xff, 0xff, 0xf0};
@@ -74,7 +74,7 @@ int newsele = -2;
 int newselec = -2;
 int subnewoption = -2;
 
-int rpm = 200;
+int rpm = 50;
 int cw = 0;
 int lin1 = 0;
 int lin2 = 0;
@@ -82,6 +82,8 @@ int lin3 = 0;
 int lin4 = 0;
 int acw = 0;
 int cyc = 1;
+bool updateMenu = true;
+int motorsum=0;
 
 char buffer[50];
 //Character Array
@@ -103,14 +105,14 @@ const char string6[] PROGMEM = "RPM \n  (min 80)";
 const char string7[] PROGMEM = "\nClockwise";
 const char string8[] PROGMEM = "Anti\n Clockwise";
 const char string9[] PROGMEM = "\nCycle";
-const char string10[] PROGMEM = "Motor 1";
-const char string11[] PROGMEM = "Motor 2";
-const char string12[] PROGMEM = "Motor 3";
-const char string13[] PROGMEM = "Motor 4";
-const char string14[] PROGMEM = "\n Motor 1";
-const char string15[] PROGMEM = "\n Motor 2";
-const char string16[] PROGMEM = "\n Motor 3";
-const char string17[] PROGMEM = "\n Motor 4";
+const char string10[] PROGMEM = "Piston 1";
+const char string11[] PROGMEM = "Piston 2";
+const char string12[] PROGMEM = "Piston 3";
+const char string13[] PROGMEM = "Piston 4";
+const char string14[] PROGMEM = "\n Piston 1";
+const char string15[] PROGMEM = "\n Piston 2";
+const char string16[] PROGMEM = "\n Piston 3";
+const char string17[] PROGMEM = "\n Piston 4";
 const char string18[] PROGMEM = "Clockwise";
 const char string19[] PROGMEM = "Linear";
 const char string20[] PROGMEM = "Anti-Clockwise";
@@ -134,6 +136,7 @@ const char *const motorkey[] PROGMEM = {string14, string15, string16, string17};
 
 char testing[100];
 char testing1[100];
+ char buffer1[20];
 
 void setup () {
   stepper.setMaxSpeed(8000);
@@ -201,28 +204,31 @@ void loop () {
   {
     selec = getupdown (8, selec);
     if (selec != newselec) {
-      choice(8, option_choice1, selec);         // clockwise / anticlockwise / rpm / cycle
+      choice(7, option_choice1, selec);         // clockwise / anticlockwise / rpm / cycle
     }
     newselec = selec;
     if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))        //clockwise
     {
-      //char buffer1[20];
+     
       delay(200);
-      strcat(testing, "c");
-      //itoa(rpm, buffer1, 10);
-      //strcpy(testing, buffer1);
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
+      
       //suboption = 0;
       option = -1;
       do {
+        updateMenu = false;
         //subscreenoption();
         clockwise_option();
         dataupdates(1);                     // increase / decrease clockwise
         if (digitalRead(buttonPin_SET) == LOW)
         {
+      strcat(testing, "c");
+      itoa(cw, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
           option = 6;
           selec = 1;                            // go to linear option
           break;
@@ -234,17 +240,21 @@ void loop () {
     else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))     //anticlockwise
     {
       delay(200);
-      strcat(testing, "a");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
       option = -1;
       do {
+        
         anticlockwise_option();
         dataupdates(2);                          // increase / decrease anti clockwise
         if (digitalRead(buttonPin_SET) == LOW)
         {
+          strcat(testing, "a");
+      itoa(acw, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
           option = 6;
           selec = 2;                                // go to rpm option
           break;
@@ -258,11 +268,7 @@ void loop () {
     {
 
       delay(200);
-      strcat(testing, "w");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
+      
       option = -1;
       do {
         //subscreenoption();
@@ -270,7 +276,14 @@ void loop () {
         dataupdates(4);                     // increase / decrease motor1
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          delay(100);
+          strcat(testing, "w");
+      itoa(lin1, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
           option = 6;                        // go to motor 2 option
           selec = 3;
           break;
@@ -282,17 +295,21 @@ void loop () {
     else if ((selec == 3) && (digitalRead(buttonPin_SET) == LOW))        //motor2
     {
       delay(200);
-      strcat(testing, "x");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
+      
       option = -1;
       do {
         motor2_option();
         dataupdates(5);                          // increase / decrease motor 2
         if (digitalRead(buttonPin_SET) == LOW)
         {
+          strcat(testing, "x");
+      itoa(lin2, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
           delay(100);
           option = 6;
           selec = 4;                             // go to motor 3 option
@@ -304,17 +321,21 @@ void loop () {
     else if ((selec == 4) && (digitalRead(buttonPin_SET) == LOW))        //motor3
     {
       delay(200);
-      strcat(testing, "y");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
+     
       option = -1;
       do {
         motor3_option();
         dataupdates(6);                          // increase / decrease motor 3
         if (digitalRead(buttonPin_SET) == LOW)
         {
+          strcat(testing, "y");
+      itoa(lin3, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      
           delay(100);
           option = 6;
           selec = 5;                            // go to motor 4
@@ -327,18 +348,21 @@ void loop () {
     else if ((selec == 5) && (digitalRead(buttonPin_SET) == LOW))        //motor4
     {
       delay(200);
-      strcat(testing, "z");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
       option = -1;
       do {
         motor4_option();
         dataupdates(7);                          // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          delay(200);
+          strcat(testing, "z");
+      itoa(lin4, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
+          
           option = 6;
           selec = 6;                            //go to rpm
           break;
@@ -349,38 +373,46 @@ void loop () {
     else if ((selec == 6) && (digitalRead(buttonPin_SET) == LOW))
     {
       delay(200);
-      strcat(testing, "r");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
       option = -1;
       do {
         rpm_option();
         dataupdates(0);                             // increase / decrease rpm
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          option = 6;                               // go to cycle option
-          selec = 7;
+           strcat(testing, "r");
+      itoa(rpm, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
+          option = 8;                               // go to customise page
+          custom1();
           break;
         }
       } while (option = -1);
 
     }
+
+    // not used
     else if ((selec == 7) && (digitalRead(buttonPin_SET) == LOW))        //cycle
     {
       delay(200);
-      strcat(testing, "e");
-      strcpy(testing1, testing);
-      strcpy(testing, testing1);
-      Serial.println(testing);
-      delay (100);
       option = -1;
       do {
         cycle_option();
         dataupdates(3);                             // increase / decrease cycle
         if (digitalRead(buttonPin_SET) == LOW)
         {
+           strcat(testing, "e");
+      itoa(cyc, buffer1, 10);
+      strcat(testing, buffer1);
+      strcat(testing, "_");
+      strcpy(testing1, testing);
+      strcpy(testing, testing1);
+      Serial.println(testing);
+      delay (100);
           option = 8;
           custom1();                                // go to customise page
           break;
@@ -526,7 +558,9 @@ void loop () {
     tft.setTextSize(2);
     tft.setCursor(10, 35);
     tft.print(F("Executing\n  Custom\n     1"));
-    motorcode7(rpm, cw, lin1, lin2, lin3, lin4, acw, cyc);
+    //motorcode7(rpm, cw, lin1, lin2, lin3, lin4, acw, cyc);
+    split(testing);
+    Serial.print(motorsum); 
     custom1();
   }
 

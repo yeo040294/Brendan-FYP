@@ -120,7 +120,12 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
 }
 
 void state (int menu_opt, const char *const string_table[]) {
-  int i = menu_opt;
+
+  
+   //if (!updateMenu) return;
+  //updateMenu=false;
+ 
+  int i = menu_opt;  
   tft.fillScreen(BLACK);
   tft.setTextSize(2);
   tft.setCursor(20, 35);
@@ -158,17 +163,19 @@ void relay_SetStatus( unsigned char status_1,  unsigned char status_2, unsigned 
 //update of customise variable ( rpm / clockwise / anticlockwise / delay / cycle )
 int dataupdates( int opt)
 {
+ 
+  updateMenu=false;
   suboption = opt;
 
   //RPM update
   if (digitalRead(buttonPin_UP) == LOW && rpm  < 650 && suboption == 0)
   {
-    rpm = rpm  + 50;
+    rpm = rpm  + 10;
     delay(100);
   }
   else if ((digitalRead(buttonPin_DWN) == LOW) && rpm  > 0 && suboption == 0)
   {
-    rpm = rpm  - 50;
+    rpm = rpm  - 10;
     delay(100);
   }
 
@@ -263,12 +270,14 @@ int getleftright(int option, int current_option) {
   if (!digitalRead(buttonPin_SET)) return current_option;
   if (!digitalRead(buttonPin_RHT)) {
     delay(100);
+    updateMenu = true;
     Serial.println("Right Pin Is Pressed.");
     return (current_option == option - 1) ? 0 : current_option = current_option + 1;
   }
 
   if (!digitalRead(buttonPin_LFT)) {
     delay(100);
+    updateMenu = true;
     Serial.println("left Pin Is Pressed.");
     return (current_option == 0) ? option - 1 : current_option = current_option - 1;
   }
@@ -281,11 +290,13 @@ int getupdown(int option, int current_option) {
   if (!digitalRead(buttonPin_DWN)) {
     Serial.println("down Pin Is Pressed.");
     delay(100);
+    updateMenu = true;
     return (current_option == option - 1) ? 0 : ++current_option;
   }
 
   if (!digitalRead(buttonPin_UP)) {
     delay(100);
+    updateMenu = true;
     return (current_option == 0) ? option - 1 : --current_option;
     Serial.println("up Pin Is Pressed.");
   }
