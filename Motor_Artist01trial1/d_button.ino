@@ -19,18 +19,19 @@ void mainscreenoption()
         break;
       case 5: pattern_3();
         break;
-      case 6: selec = 0;
-        choice(8, option_choice1, selec);
+     // case 6: //selec = 0;
+        //choice(8, option_choice1, selec);
+     //   break;
+      case 7: se = 0;
+       
+      custom();
         break;
-      case 7: //se = 0;
-        //choice(4,motor_choice, selec);
-        break;
-      case 8:
-        custom1();
-        break;
-      case 9:
+     // case 8:
+        //custom1();
+     //   break;
+    //  case 9:
         //custom2();
-        break;
+    //    break;
       default : break;
     }
     newoption = option;
@@ -90,32 +91,129 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
   else  {
     for (int i = 0; i < choice_opt; i++)
     {
-      tft.setTextSize(1);
-      tft.setCursor(30, 30 + i * 18 - 18);
+      if ( i == 8 )
+      {
+        tft.setTextSize(1);
+      tft.setCursor(50, 50 + (i-1) * 12 - 12);
       strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
       tft.println(buffer);
+      }
+      else if (i < 8){
+      tft.setTextSize(1);
+      tft.setCursor(15, 50 + i * 12 - 12);
+      strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
+      tft.println(buffer);
+      }
     }
     if (select == 0)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 1)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 2)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 3)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 4)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 5)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 6)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
     else if (select == 7)
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 30, 13, WHITE);
     else
-      tft.drawRect(28, 30 + select * 18 - 18 - 7, 60, 18, WHITE);
+      tft.drawRect(48, 52 + (select-1) * 12 - 12 - 7, 50, 13, WHITE);
   }
   tft.drawBitmap (90, 5, up_15, 15, 15, WHITE, BLACK);
   tft.drawBitmap (90, 140, down_15, 15, 15, WHITE, BLACK);
+
+}
+
+//update of customise variable ( rpm / clockwise / anticlockwise / delay / cycle )
+int dataupdates( int opt)
+{
+ 
+  updateMenu=false;
+  suboption = opt;
+
+  //rounds update
+  if (digitalRead(buttonPin_RHT) == LOW && suboption == 0)
+  {
+   
+    roun = roun  + 1;
+     delay(100);
+    
+  }
+  else if ((digitalRead(buttonPin_LFT) == LOW) && roun  > 0 && suboption == 0)
+  {
+    
+    roun = roun  - 1;
+    delay(100);
+    
+  }
+
+  // clockwise/anticlockwise T/F update
+  if (digitalRead(buttonPin_SET) == LOW && caw == true && suboption == 1)
+  {
+    caw = false;
+  }
+  else if ((digitalRead(buttonPin_SET) == LOW) && caw == false && suboption == 1)
+  {
+    caw = true;
+  }
+
+  // anticlockwise update
+  if (digitalRead(buttonPin_SET) == LOW && p1 == true && suboption == 2)
+  {
+   p1 = false;
+  }
+  else if ((digitalRead(buttonPin_SET) == LOW) && p1 == false && suboption == 2)
+  {
+    p1 = true;
+  }
+
+  // cycle update
+  if (digitalRead(buttonPin_SET) == LOW && p2 == true && suboption == 3)
+  {
+   p2 = false;
+  }
+  else if ((digitalRead(buttonPin_SET) == LOW) && p2 == false && suboption == 3)
+  {
+    p2 = true;
+  }
+
+  // Lin 1
+  if (digitalRead(buttonPin_SET) == LOW && p3 == true&& suboption == 4)
+  {
+    p3 = false;
+  }
+  else if ((digitalRead(buttonPin_SET) == LOW) && p3 == false  && suboption == 4)
+  {
+    p3 = true;
+  }
+
+  // Lin 2
+  if (digitalRead(buttonPin_SET) == LOW && p4 == true&& suboption == 5)
+  {
+    p4 = false;
+  }
+  else if ((digitalRead(buttonPin_SET) == LOW) && p4 == false && suboption == 5)
+  {
+    p4 = true;
+  }
+  // Lin 3
+  if (digitalRead(buttonPin_RHT) == LOW && rpm < 650 && suboption == 6)
+  {
+    rpm = rpm  + 10;
+    delay(100);
+  }
+  else if ((digitalRead(buttonPin_LFT) == LOW) && rpm > 0 && suboption == 6)
+  {
+    rpm = rpm  - 10;
+    delay(100);
+  }
+
+
 
 }
 
@@ -160,6 +258,7 @@ void relay_SetStatus( unsigned char status_1,  unsigned char status_2, unsigned 
   digitalWrite(IN3, status_3);
   digitalWrite(IN4, status_4);
 }
+/*
 //update of customise variable ( rpm / clockwise / anticlockwise / delay / cycle )
 int dataupdates( int opt)
 {
@@ -264,7 +363,7 @@ int dataupdates( int opt)
   }
 
 }
-
+*/
 
 int getleftright(int option, int current_option) {
   if (!digitalRead(buttonPin_SET)) return current_option;

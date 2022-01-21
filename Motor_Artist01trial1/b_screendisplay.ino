@@ -97,6 +97,45 @@ void custom1() {
   tft.print(testing);                       // display the new sequence of codes in character
 }
 
+void custom() {
+    choice(9, option_choice, se);
+      tft.setCursor(20,20);
+      tft.print("Customise");
+      tft.setCursor(100, 40);
+      tft.print(roun);
+      tft.setCursor(100, 50);
+      if (caw)
+        tft.print("T");
+      else
+        tft.print("F");
+      //tft.print(p1);
+      tft.setCursor(100, 60);
+      if (p1)
+        tft.print("T");
+      else
+        tft.print("F");
+
+      tft.setCursor(100, 70);
+      if (p2)
+        tft.print("T");
+      else
+        tft.print("F");
+      tft.setCursor(100, 80);
+      if (p3)
+        tft.print("T");
+      else
+        tft.print("F");
+      tft.setCursor(100, 90);
+      if (p4)
+        tft.print("T");
+      else
+        tft.print("F");
+
+      tft.setCursor(100, 110);
+      tft.print(rpm);                  
+}
+
+
 void rpm_option() {
   state(0, key);
   tft.setCursor(40, 75);
