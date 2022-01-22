@@ -139,14 +139,14 @@ int dataupdates( int opt)
   //rounds update
   if (digitalRead(buttonPin_RHT) == LOW && suboption == 0)
   {
-   
+   updateMenu = true;
     roun = roun  + 1;
      delay(100);
     
   }
   else if ((digitalRead(buttonPin_LFT) == LOW) && roun  > 0 && suboption == 0)
   {
-    
+     updateMenu = true;
     roun = roun  - 1;
     delay(100);
     
@@ -204,11 +204,13 @@ int dataupdates( int opt)
   // Lin 3
   if (digitalRead(buttonPin_RHT) == LOW && rpm < 650 && suboption == 6)
   {
+     updateMenu = true;
     rpm = rpm  + 10;
     delay(100);
   }
   else if ((digitalRead(buttonPin_LFT) == LOW) && rpm > 0 && suboption == 6)
   {
+     updateMenu = true;
     rpm = rpm  - 10;
     delay(100);
   }
