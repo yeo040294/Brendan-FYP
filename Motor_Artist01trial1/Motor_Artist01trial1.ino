@@ -92,6 +92,15 @@ bool p2 = false;
 bool p3 = false;
 bool p4 = false;
 
+int su=0;
+int rou =0;
+int rp =0;
+int w =0;
+int x = 0;
+int y =0;
+int z=0;
+
+
 char buffer[50];
 //Character Array
 const char welcome[] PROGMEM = "Welcome \n    to \n    Art\n   Buddy";
@@ -151,6 +160,8 @@ const char *const motorkey[] PROGMEM = {string14, string15, string16, string17};
 char testing[100];
 char testing1[100];
 char buffer1[20];
+char buffer2[20];
+char buffer3[20];
 
 void setup () {
   stepper.setMaxSpeed(8000);
@@ -568,7 +579,7 @@ void loop () {
 
     else if ((se == 6) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
     {
-      delay (100);
+      delay (200);
       option = -1;
       do {
          if (updateMenu) {
@@ -592,6 +603,78 @@ void loop () {
 
     }
 
+    else if ((se == 7) && (digitalRead(buttonPin_SET) == LOW))      //NEXT
+    {
+      delay (100);
+      option = -1;
+      do {
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+         if (p1 == true)
+         motorsum = motorsum +1;
+         if (p2 == true)
+         motorsum = motorsum +1;
+         if (p3 == true)
+         motorsum = motorsum +1;
+         if (p4 == true)
+         motorsum = motorsum +1;
+         strcat(testing, "m");
+           itoa(motorsum, buffer1, 10);
+           strcat(testing, buffer1);
+
+           if (caw == true )
+            strcat(testing, "c");
+           else 
+            strcat(testing, "a");
+            itoa(roun, buffer2, 10);
+           strcat(testing, buffer2);
+            strcat(testing, "r");
+           itoa(rpm, buffer3, 10);
+           strcat(testing, buffer3);
+           strcat(testing, "_");
+          strcpy(testing1, testing);
+           strcpy(testing, testing1);
+           
+           Serial.println(testing);
+           Serial.print("motorsum");
+        Serial.println(motorsum);
+
+roun = 0;
+caw = true;
+p1 = false;
+p2 = false;
+p3 = false;
+p4 = false;
+rpm = 50;
+motorsum =0;
+        
+        option = 7;
+          se = 0;
+         break;
+        
+        }
+        
+      } while (option = -1);
+
+    }
+    
+ else if ((se == 8) && (digitalRead(buttonPin_SET) == LOW))      //execute
+    {
+      delay (100);
+      option = -1;
+      do {
+        
+        if (digitalRead(buttonPin_SET) == LOW)
+        {
+          split(testing);
+          delay(100);
+          option = 7;
+          se = 0;                            // go to piston 2
+          break;
+        }
+      } while (option = -1);
+
+    }
   }
 
 

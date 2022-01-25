@@ -93,98 +93,123 @@ void split(char* data)
     seqorder(param);
     param = strtok(NULL, "_");
   }
-  Serial.print("motorsum: ");
-  Serial.println(motorsum);
+ 
 
 }
 
 void seqorder (char* data)
 {
-  stepper.setAcceleration(rpm);
-  if (data[0] == 'c')
+   if (data[0] == 'm')
   {
     int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
-    stepper.setCurrentPosition(0);
-    stepper.moveTo(motormovement(1 * steps));
+    Serial.print("motor");
+   
+    su = steps; 
+     Serial.println(su);
+  }
+  if (data[2] == 'c')
+  {
+    int steps = strtol(data+3, NULL, 10);
+    Serial.print("clock");
+    
+    rou = steps;
+    Serial.println(rou);
+     
+  }
+  if (data[2] == 'a')
+  {
+    int steps = strtol(data+3, NULL, 10);
+    Serial.print("clock");
+    
+    rou = -steps;
+     Serial.println(rou);
+  }
+   if (data[4] == 'r')
+  {
+    int steps = strtol(data+5, NULL, 10);
+    Serial.print("rpm");
+    
+    rp = steps;
+    Serial.println(rp); 
+  }
+  if (data[5] == 'r')
+  {
+    int steps = strtol(data+6, NULL, 10);
+    Serial.print("rpm");
+    
+    rp = steps;
+     Serial.println(rp); 
+  }
+  stepper.setAcceleration(rp);
+   stepper.setCurrentPosition(0);
+    stepper.moveTo(motormovement(1 * rou));
      while (stepper.distanceToGo() != 0 )
   {
     stepper.run();
-    if (motorsum > 0 && (stepper.distanceToGo() % (motormovement(steps) / motorsum) == 0))
+  //  if (su > 0 && (stepper.distanceToGo() % (motormovement(rou) / su) == 0))
+   // {
+   //  linear3(1);
+  //  }
+
+      if (stepper.distanceToGo() == (motormovement(rou)/2))
     {
      linear3(1);
     }
-    
-  }
-  
-    motorsum =0;
-    Serial.print("motorsum: ");
-  Serial.println(motorsum);  
-  }
-
-  if (data[0] == 'a')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
-    stepper.setCurrentPosition(0);
-    stepper.moveTo(motormovement(-1 * steps));
-     while (stepper.distanceToGo() != 0 )
-  {
-    stepper.run();
-     if (motorsum > 0 && (stepper.distanceToGo() % (motormovement(-1*steps) / motorsum) == 0))
-    {
-     linear4(1);
-    }
-  }
-   motorsum =0;
-   Serial.print("motorsum: ");
-  Serial.println(motorsum); 
-  }
-
-  if (data[0] == 'w')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps);
-    motorsum = motorsum + steps;
-    //linear1(steps);
-  }
-  
-  if (data[0] == 'x')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
-    motorsum = motorsum + steps;
-    //linear2(steps);
-  }
-  
-   if (data[0] == 'y')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
-    motorsum = motorsum + steps;
-     //linear3(steps);
-  }
-  
-  if (data[0] == 'z')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
-    motorsum = motorsum + steps;
-     //linear4(steps);
-  }
-
-  if (data[0] == 'r')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
-  }
-
-  if (data[0] == 'e')
-  {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.println(steps); 
   }
 }
+
+
+int linear1(int L1, int L2, int L3, int L4) {
+  if (L1 != 0)
+  {
+  int x = 0;
+  while (x <  L1) {
+    relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
+    //delay(50);
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(50);
+    L1--;
+    Serial.print(L1);
+  }
+  }
+  if (L2 != 0)
+  {
+    int x = 0;
+  while (x <  L2) {
+    relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_1
+    delay(50);//delay 2s0
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+     delay(50);
+    L2--;
+    Serial.print(L2);
+  }
+  }
+  if (L3 != 0)
+  {
+    int x = 0;
+  while (x <  L3) {
+    relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
+    delay(50);//delay 2s0
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+     delay(50);
+    L3--;
+    Serial.print(L3);
+  }  
+  }
+  if (L4 != 0)
+  {
+    int x = 0;
+  while (x <  L4) {
+    relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
+    delay(50);//delay 2s0
+    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+     delay(50);
+    L4--;
+    Serial.print(L4);
+  }
+  }
+}
+
 
 
 // adjustable code for linear motor1
@@ -192,9 +217,9 @@ int linear1(int L1) {
   int x = 0;
   while (x <  L1) {
     relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
+    delay(50);
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
+    delay(50);
     L1--;
     Serial.print(L1);
   }
@@ -205,10 +230,10 @@ int linear2(int L2) {
   int x = 0;
   while (x <  L2) {
     relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_2
-    delay(500);//delay 2s0
+    delay(50);//delay 2s0
     //delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
+    delay(50);
     L2--;
     Serial.print(L2);
   }
@@ -219,9 +244,9 @@ int linear3(int L3) {
   int x = 0;
   while (x <  L3) {
     relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    delay(500);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
+     delay(50);//delay 2s0
+     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
+    delay(50);
     L3--;
     Serial.print(L3);
   }
@@ -232,9 +257,9 @@ int linear4(int L4) {
   int x = 0;
   while (x <  L4) {
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-    delay(500);//delay 2s0
+    delay(50);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(500);
+    delay(50);
     L4--;
     Serial.print(L4);
   }
