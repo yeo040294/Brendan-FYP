@@ -91,14 +91,19 @@ bool p1 = false;
 bool p2 = false;
 bool p3 = false;
 bool p4 = false;
+int su = 0;
+int rou = 0;
+int rp = 0;
+bool w1 = false;
+bool x1 = false;
+bool y1 = false;
+bool z1 = false;
 
-int su=0;
-int rou =0;
-int rp =0;
-int w =0;
-int x = 0;
-int y =0;
-int z=0;
+char testing[100];
+char testing1[100];
+char buffer1[20];
+char buffer2[20];
+char buffer3[20];
 
 
 char buffer[50];
@@ -140,7 +145,6 @@ const char string24[] PROGMEM = "Clock/Anti";
 const char string25[] PROGMEM = "NEXT";
 const char string26[] PROGMEM = "EXECUTE";
 
-
 const char *const mainmenu[] PROGMEM = {welcome};
 const char *const pat_choice[] PROGMEM = {pat1, pat2, pat3, cus};
 const char *const motor_choice[] PROGMEM = {string10, string11, string12, string13};
@@ -157,26 +161,20 @@ const char *const customise1[] PROGMEM = {cus1, string1, string2, string3, strin
 const char *const key[] PROGMEM = {string6, string7, string8, string9};
 const char *const motorkey[] PROGMEM = {string14, string15, string16, string17};
 
-char testing[100];
-char testing1[100];
-char buffer1[20];
-char buffer2[20];
-char buffer3[20];
 
 void setup () {
   stepper.setMaxSpeed(8000);
 
   tft.setTextColor(WHITE);
-  tft.initR (INITR_BLACKTAB);                                                                         // initialize ST7735S TFT display
+  tft.initR (INITR_BLACKTAB);
 
   Serial.begin (9600);
-  Serial.println ("starting ST 7735 TFT");
-  Serial.println ("80x160 rotated 90 degrees");
-  Serial.println ("Muybridge's galloping horse Sallie Gardner");
-  Serial.println ("one frame - DEMO");
-  Serial.println ("inverted color scheme");
-
-
+  /*Serial.println ("starting ST 7735 TFT");
+    Serial.println ("80x160 rotated 90 degrees");
+    Serial.println ("Muybridge's galloping horse Sallie Gardner");
+    Serial.println ("one frame - DEMO");
+    Serial.println ("inverted color scheme");
+  */
   pinMode(buttonPin_RST, INPUT_PULLUP);
   pinMode(buttonPin_SET, INPUT_PULLUP);
   pinMode(buttonPin_MID, INPUT_PULLUP);
@@ -184,14 +182,11 @@ void setup () {
   pinMode(buttonPin_LFT, INPUT_PULLUP);
   pinMode(buttonPin_DWN, INPUT_PULLUP);
   pinMode(buttonPin_UP, INPUT_PULLUP);
-  tft.setRotation (0);                                                                                // landscape upright text
+  tft.setRotation (0);
   tft.fillScreen (BLUE);
   startpage();
-
   relay_init();//initialize the relay
 }
-
-
 
 void loop () {
   mainscreenoption();
@@ -207,279 +202,52 @@ void loop () {
     {
       delay(100);
       option = 3;
-      pattern_1();                             // required else code will auto execute
+      pattern_1();
     }
     else if ((sel == 1) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
     {
       option = 4;
-      pattern_2();                             // required else code will auto execute
+      pattern_2();
     }
     else if ((sel == 2) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
     {
       option = 5;
-      pattern_3();                             // required else code will auto execute
+      pattern_3();
     }
     else if ((sel == 3) && (digitalRead(buttonPin_SET) == LOW))   //customise option
       option = 6;
     delay(100);
   }
 
-  // selection rpm page
-  /* if ((option == 6))
-    {
-     selec = getupdown (8, selec);
-     if (selec != newselec) {
-       choice(7, option_choice1, selec);         // clockwise / anticlockwise / rpm / cycle
-     }
-     newselec = selec;
-     if ((selec == 0) && (digitalRead(buttonPin_SET) == LOW))        //clockwise
-     {
-
-       delay(200);
-
-       //suboption = 0;
-       option = -1;
-       do {
-         updateMenu = false;
-         //subscreenoption();
-         clockwise_option();
-         dataupdates(1);                     // increase / decrease clockwise
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "c");
-           itoa(cw, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-           option = 6;
-           selec = 1;                            // go to linear option
-           break;
-         }
-       } while (option = -1);
-
-     }
-
-     else if ((selec == 1) && (digitalRead(buttonPin_SET) == LOW))     //anticlockwise
-     {
-       delay(200);
-       option = -1;
-       do {
-
-         anticlockwise_option();
-         dataupdates(2);                          // increase / decrease anti clockwise
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "a");
-           itoa(acw, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-           option = 6;
-           selec = 2;                                // go to rpm option
-           break;
-         }
-       } while (option = -1);
-     }
 
 
-
-     else if ((selec == 2) && (digitalRead(buttonPin_SET) == LOW))        //motor1
-     {
-
-       delay(200);
-
-       option = -1;
-       do {
-         //subscreenoption();
-         motor1_option();
-         dataupdates(4);                     // increase / decrease motor1
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "w");
-           itoa(lin1, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-           option = 6;                        // go to motor 2 option
-           selec = 3;
-           break;
-         }
-       } while (option = -1);
-
-     }
-
-     else if ((selec == 3) && (digitalRead(buttonPin_SET) == LOW))        //motor2
-     {
-       delay(200);
-
-       option = -1;
-       do {
-         motor2_option();
-         dataupdates(5);                          // increase / decrease motor 2
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "x");
-           itoa(lin2, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-           delay(100);
-           option = 6;
-           selec = 4;                             // go to motor 3 option
-           break;
-         }
-       } while (option = -1);
-
-     }
-     else if ((selec == 4) && (digitalRead(buttonPin_SET) == LOW))        //motor3
-     {
-       delay(200);
-
-       option = -1;
-       do {
-         motor3_option();
-         dataupdates(6);                          // increase / decrease motor 3
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "y");
-           itoa(lin3, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-
-           delay(100);
-           option = 6;
-           selec = 5;                            // go to motor 4
-           break;
-         }
-       } while (option = -1);
-
-     }
-
-     else if ((selec == 5) && (digitalRead(buttonPin_SET) == LOW))        //motor4
-     {
-       delay(200);
-       option = -1;
-       do {
-         motor4_option();
-         dataupdates(7);                          // increase / decrease motor 4
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "z");
-           itoa(lin4, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-
-           option = 6;
-           selec = 6;                            //go to rpm
-           break;
-         }
-       } while (option = -1);
-
-     }
-     else if ((selec == 6) && (digitalRead(buttonPin_SET) == LOW))
-     {
-       delay(200);
-       option = -1;
-       do {
-         rpm_option();
-         dataupdates(0);                             // increase / decrease rpm
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "r");
-           itoa(rpm, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-           option = 8;                               // go to customise page
-           custom1();
-           break;
-         }
-       } while (option = -1);
-
-     }
-
-
-     // not used
-     else if ((selec == 7) && (digitalRead(buttonPin_SET) == LOW))        //cycle
-     {
-       delay(200);
-       option = -1;
-       do {
-         cycle_option();
-         dataupdates(3);                             // increase / decrease cycle
-         if (digitalRead(buttonPin_SET) == LOW)
-         {
-           strcat(testing, "e");
-           itoa(cyc, buffer1, 10);
-           strcat(testing, buffer1);
-           strcat(testing, "_");
-           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           Serial.println(testing);
-           delay (100);
-           option = 8;
-           custom1();                                // go to customise page
-           break;
-
-         }
-       } while (option = -1);
-     }
-    }
-  */
-  if ((option == 7))
+  if ((option == 6))                        //customise page
   {
-
-
     delay(200);
     se = getupdown (9, se);
     if (se != newse) {
-
       custom();
     }
     newse = se;
 
-    if ((se == 0) && (digitalRead(buttonPin_SET) == LOW))        //motor1
+    if ((se == 0) && (digitalRead(buttonPin_SET) == LOW))        //rounds
     {
       delay (100);
       option = -1;
       do {
-        //subscreenoption();
         if (updateMenu) {
           updateMenu = false;
+          tft.drawBitmap (80, 36, right_15, 15, 15, BLACK, WHITE);
           tft.fillRect(100, 40, 20, 10, BLACK);
           tft.setCursor(100, 40);
           tft.print(roun);
         }
-        //updateMenu = false;
-
-        dataupdates(0);                     // increase / decrease motor1
+        dataupdates(0);                     // increase / decrease rounds
         if (digitalRead(buttonPin_SET) == LOW)
         {
           delay(100);
-          option = 7;                        // go to motor 2 option
-          se = 1;
+          option = 6;
+          se = 1;                            // go to clockwise/anticlockwise option
           break;
         }
       } while (option = -1);
@@ -491,12 +259,12 @@ void loop () {
       delay (100);
 
       option = -1;
-      do {                       // T/F
+      do {                       
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          dataupdates(1);
+          dataupdates(1);                       // T/F
           delay(100);
-          option = 7;
+          option = 6;
           se = 2;                             // go to piston 1
           break;
         }
@@ -505,7 +273,7 @@ void loop () {
     }
 
 
-    else if ((se == 2) && (digitalRead(buttonPin_SET) == LOW))      // motor 3
+    else if ((se == 2) && (digitalRead(buttonPin_SET) == LOW))      // Piston1
     {
       delay (100);
       option = -1;
@@ -513,16 +281,16 @@ void loop () {
         // T/F
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          dataupdates(2);
+          dataupdates(2);                     // T/F
           delay(100);
-          option = 7;
+          option = 6;
           se = 3;                            // go to piston 2
           break;
         }
       } while (option = -1);
     }
 
-    else if ((se == 3) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
+    else if ((se == 3) && (digitalRead(buttonPin_SET) == LOW))      // Piston2
     {
       delay (100);
       option = -1;
@@ -530,17 +298,17 @@ void loop () {
         // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          dataupdates(3);
+          dataupdates(3);                     // T/F
           delay(100);
-          option = 7;
-          se = 4;                            // go to piston 2
+          option = 6;
+          se = 4;                            // go to piston 3
           break;
         }
       } while (option = -1);
 
     }
 
-    else if ((se == 4) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
+    else if ((se == 4) && (digitalRead(buttonPin_SET) == LOW))      // Piston3
     {
       delay (100);
       option = -1;
@@ -548,17 +316,17 @@ void loop () {
         // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          dataupdates(4);
+          dataupdates(4);                     // T/F
           delay(100);
-          option = 7;
-          se = 5;                            // go to piston 2
+          option = 6;
+          se = 5;                            // go to piston 4
           break;
         }
       } while (option = -1);
 
     }
 
-    else if ((se == 5) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
+    else if ((se == 5) && (digitalRead(buttonPin_SET) == LOW))      //Piston4
     {
       delay (100);
       option = -1;
@@ -566,10 +334,10 @@ void loop () {
         // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          dataupdates(5);
+          dataupdates(5);                     // T/F
           delay(100);
-          option = 7;
-          se = 6;                            // go to piston 2
+          option = 6;
+          se = 6;                            // go to rpm
           break;
         }
       } while (option = -1);
@@ -577,26 +345,27 @@ void loop () {
     }
 
 
-    else if ((se == 6) && (digitalRead(buttonPin_SET) == LOW))      //motor 4
+    else if ((se == 6) && (digitalRead(buttonPin_SET) == LOW))      //rpm
     {
       delay (200);
       option = -1;
       do {
-         if (updateMenu) {
-          updateMenu = false;
-           tft.fillRect(100, 110, 20, 10, BLACK);
-        tft.setCursor(100, 110);
-        tft.print(rpm);
+        if (updateMenu) {
+          updateMenu = false;   
+          tft.drawBitmap (80, 108, right_15, 15, 15, BLACK, WHITE);
+          tft.fillRect(100, 110, 20, 10, BLACK);
+          tft.setCursor(100, 110);
+          tft.print(rpm);
         }
-        
-       
-        dataupdates(6);
+
+
+        dataupdates(6);                       // increase / decrease rpm 
         if (digitalRead(buttonPin_SET) == LOW)
         {
 
           delay(100);
-          option = 7;
-          se = 7;                            // go to piston 2
+          option = 6;         
+          se = 7;                            // go to NEXT
           break;
         }
       } while (option = -1);
@@ -610,66 +379,88 @@ void loop () {
       do {
         if (digitalRead(buttonPin_SET) == LOW)
         {
-         if (p1 == true)
-         motorsum = motorsum +1;
-         if (p2 == true)
-         motorsum = motorsum +1;
-         if (p3 == true)
-         motorsum = motorsum +1;
-         if (p4 == true)
-         motorsum = motorsum +1;
-         strcat(testing, "m");
-           itoa(motorsum, buffer1, 10);
-           strcat(testing, buffer1);
+          if (p1 == true)
+          {
+            strcat(testing, "w");
+           // motorsum = motorsum + 1;
+          }
+          else
+            strcat(testing, "f");
+          if (p2 == true)
+          {
+            strcat(testing, "x");
+          //  motorsum = motorsum + 1;
+          }
+          else
+            strcat(testing, "f");
+          if (p3 == true)
+          {
+            strcat(testing, "y");
+         //   motorsum = motorsum + 1;
+          }
+          else
+            strcat(testing, "f");
+          if (p4 == true)
+          {
+            strcat(testing, "z");
+         //   motorsum = motorsum + 1;
+          }
+          else
+            strcat(testing, "f");
 
-           if (caw == true )
+         /* strcat(testing, "m");
+          itoa(motorsum, buffer1, 10);
+          strcat(testing, buffer1);
+          */
+          if (caw == true )
             strcat(testing, "c");
-           else 
+          else
             strcat(testing, "a");
-            itoa(roun, buffer2, 10);
-           strcat(testing, buffer2);
-            strcat(testing, "r");
-           itoa(rpm, buffer3, 10);
-           strcat(testing, buffer3);
-           strcat(testing, "_");
+          itoa(roun, buffer2, 10);
+          strcat(testing, buffer2);
+          strcat(testing, "r");
+          itoa(rpm, buffer3, 10);
+          strcat(testing, buffer3);
+          strcat(testing, "_");
           strcpy(testing1, testing);
-           strcpy(testing, testing1);
-           
-           Serial.println(testing);
-           Serial.print("motorsum");
-        Serial.println(motorsum);
+          strcpy(testing, testing1);
 
-roun = 0;
-caw = true;
-p1 = false;
-p2 = false;
-p3 = false;
-p4 = false;
-rpm = 50;
-motorsum =0;
-        
-        option = 7;
+          Serial.println(testing);
+          //Serial.print("motorsum");
+          //Serial.println(motorsum);
+          roun = 0;                                   //reset data to default
+          caw = true;
+          p1 = false;
+          p2 = false;
+          p3 = false;
+          p4 = false;
+          rpm = 50;
+          //motorsum = 0;
+          option = 6;                           //go to rounds
           se = 0;
-         break;
-        
+          break;
         }
-        
+
       } while (option = -1);
 
     }
-    
- else if ((se == 8) && (digitalRead(buttonPin_SET) == LOW))      //execute
+
+    else if ((se == 8) && (digitalRead(buttonPin_SET) == LOW))      //execute
     {
       delay (100);
       option = -1;
       do {
-        
+
         if (digitalRead(buttonPin_SET) == LOW)
         {
+          tft.fillScreen(BLACK);
+          tft.setTextSize(2);
+          tft.setCursor(10, 35);
+          tft.print(F("Executing\n  Custom\n     1"));
           split(testing);
           delay(100);
-          option = 7;
-          se = 0;                            // go to piston 2
+          option = 6;
+          se = 0;                            // go to rounds
           break;
         }
       } while (option = -1);
@@ -710,32 +501,6 @@ motorsum =0;
     tft.print(F("Executing\n  Pattern\n    3"));
     motorcode3();
     pattern_3();
-  }
-  // customise execution
-  if ((option == 8) && (digitalRead(buttonPin_SET) == LOW))
-  {
-    tft.fillScreen(BLACK);
-    tft.setTextSize(2);
-    tft.setCursor(10, 35);
-    tft.print(F("Executing\n  Custom\n     1"));
-    //motorcode7(rpm, cw, lin1, lin2, lin3, lin4, acw, cyc);
-    split(testing);
-    Serial.print(motorsum);
-    custom1();
-  }
-
-  if  (digitalRead(buttonPin_MID) == LOW)
-  {
-    strcpy (testing, "");
-    int rpm = 200;
-    int cw = 0;
-    int lin1 = 0;
-    int lin2 = 0;
-    int lin3 = 0;
-    int lin4 = 0;
-    int acw = 0;
-    int cyc = 1;
-
   }
 
 }

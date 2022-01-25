@@ -18,20 +18,10 @@ void mainscreenoption()
       case 4: pattern_2();
         break;
       case 5: pattern_3();
-        break;
-     // case 6: //selec = 0;
-        //choice(8, option_choice1, selec);
-     //   break;
-      case 7: se = 0;
-       
+        break;     
+      case 6: se = 0;   
       custom();
         break;
-     // case 8:
-        //custom1();
-     //   break;
-    //  case 9:
-        //custom2();
-    //    break;
       default : break;
     }
     newoption = option;
@@ -146,10 +136,9 @@ int dataupdates( int opt)
   }
   else if ((digitalRead(buttonPin_LFT) == LOW) && roun  > 0 && suboption == 0)
   {
-     updateMenu = true;
+    updateMenu = true;
     roun = roun  - 1;
     delay(100);
-    
   }
 
   // clockwise/anticlockwise T/F update
@@ -162,7 +151,7 @@ int dataupdates( int opt)
     caw = true;
   }
 
-  // anticlockwise update
+  // Lin 1 T/F
   if (digitalRead(buttonPin_SET) == LOW && p1 == true && suboption == 2)
   {
    p1 = false;
@@ -171,8 +160,8 @@ int dataupdates( int opt)
   {
     p1 = true;
   }
-
-  // cycle update
+  
+  // Lin 2 T/F
   if (digitalRead(buttonPin_SET) == LOW && p2 == true && suboption == 3)
   {
    p2 = false;
@@ -182,7 +171,7 @@ int dataupdates( int opt)
     p2 = true;
   }
 
-  // Lin 1
+  // Lin 3 T/F
   if (digitalRead(buttonPin_SET) == LOW && p3 == true&& suboption == 4)
   {
     p3 = false;
@@ -192,7 +181,7 @@ int dataupdates( int opt)
     p3 = true;
   }
 
-  // Lin 2
+  // Lin 4 T/F
   if (digitalRead(buttonPin_SET) == LOW && p4 == true&& suboption == 5)
   {
     p4 = false;
@@ -201,7 +190,7 @@ int dataupdates( int opt)
   {
     p4 = true;
   }
-  // Lin 3
+  // RPM
   if (digitalRead(buttonPin_RHT) == LOW && rpm < 650 && suboption == 6)
   {
      updateMenu = true;
@@ -214,8 +203,6 @@ int dataupdates( int opt)
     rpm = rpm  - 10;
     delay(100);
   }
-
-
 
 }
 
@@ -239,8 +226,6 @@ void state (int menu_opt, const char *const string_table[]) {
   tft.drawRect(98, 106, 22, 15, WHITE);
   tft.setTextSize(2);
 }
-
-
 
 void relay_init(void)//initialize the relay
 {

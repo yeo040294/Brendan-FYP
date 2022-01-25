@@ -73,30 +73,6 @@ void pattern_3() {
   tft.print(2);
 }
 
-
-void custom1() {
-  menu(6, customise1);
-  tft.setCursor(100, 50);
-  tft.print(rpm);
-  tft.setCursor(100, 60);
-  tft.print(cw);
-  tft.setCursor(85, 70);
-  tft.print(lin1);
-  tft.print(",");
-  tft.print(lin2);
-  tft.print(",");
-  tft.print(lin3);
-  tft.print(",");
-  tft.print(lin4);
-  tft.setCursor(100, 80);
-  tft.print(acw);
-  tft.setCursor(100, 90);
-  tft.print(cyc);
-
-  tft.setCursor(0, 110);
-  tft.print(testing);                       // display the new sequence of codes in character
-}
-
 void custom() {
     choice(9, option_choice, se);
       tft.setCursor(20,20);
@@ -108,81 +84,26 @@ void custom() {
         tft.print("T");
       else
         tft.print("F");
-      //tft.print(p1);
-      tft.setCursor(100, 60);
+      tft.setCursor(100, 62);
       if (p1)
         tft.print("T");
       else
         tft.print("F");
-
-      tft.setCursor(100, 70);
+      tft.setCursor(100, 74);
       if (p2)
         tft.print("T");
       else
         tft.print("F");
-      tft.setCursor(100, 80);
+      tft.setCursor(100, 86);
       if (p3)
         tft.print("T");
       else
         tft.print("F");
-      tft.setCursor(100, 90);
+      tft.setCursor(100, 98);
       if (p4)
         tft.print("T");
       else
         tft.print("F");
-
       tft.setCursor(100, 110);
       tft.print(rpm);                  
-}
-
-
-void rpm_option() {
-  state(0, key);
-  tft.setCursor(40, 75);
-  tft.print(rpm);;
-}
-
-void clockwise_option () {
-  state(1, key);
-  tft.setCursor(50, 75);
-  tft.print(cw);
-}
-
-
-void motor1_option() {
-  state (0, motorkey);
-  tft.setCursor(50, 75);
-  tft.print(lin1);
-}
-
-void anticlockwise_option () {
-  state(2, key);
-  tft.setCursor(50, 80);
-  tft.print(acw);
-}
-
-
-void cycle_option () {
-  state(3, key);
-  tft.setCursor(50, 75);
-  tft.print(cyc);
-}
-
-void motor2_option() {
-  state(1, motorkey);
-  tft.setCursor(50, 75);
-  tft.print(lin2);
-}
-
-void motor3_option() {
-  state(2, motorkey);
-  tft.setCursor(50, 75);
-  tft.print(lin3);
-}
-
-
-void motor4_option() {
-  state(3, motorkey);
-  tft.setCursor(50, 75);
-  tft.print(lin4);
 }

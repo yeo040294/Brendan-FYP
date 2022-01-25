@@ -19,18 +19,12 @@ void motorcode1() {
     stepper.run();
    if (stepper.distanceToGo() % (motormovement(-10) / 3) == 0)
     {
-     linear1(1);
+     linear3(1);
     }
-    //linear2(1);
+    
     
   }
  
-}
-
-int motormovement(int val )
-{
-  return (val * 200);
-  
 }
 
 //motor code 2
@@ -50,14 +44,14 @@ void motorcode2() {
     stepper.run();
    if (stepper.distanceToGo() % (motormovement(-10) / 3) == 0)
     {
-     linear2(1);
+     linear4(1);
     }
     
   }
 }
 
 //motor code 3
-// void motorcode3(int round){
+
 void motorcode3() {
    stepper.setAcceleration(150);
   stepper.setCurrentPosition(0);
@@ -76,9 +70,22 @@ void motorcode3() {
     {
      linear1(1);
     }
-    //linear2(1);
+    
     
   }
+}
+
+int motormovement(int val )
+{
+  return (val * 200);
+  
+}
+
+int startLinear(bool L1, bool L2, bool L3, bool L4) {
+  relay_SetStatus(!L1, !L2, !L3, !L4);
+  delay(50);
+  relay_SetStatus(OFF, OFF, OFF, OFF);
+  delay(50);
 }
 
 void split(char* data)
@@ -99,42 +106,59 @@ void split(char* data)
 
 void seqorder (char* data)
 {
-   if (data[0] == 'm')
+  // if character, declare true else false
+  if (data[0]=='w')
   {
-    int steps = strtol(data+1, NULL, 10);
-    Serial.print("motor");
-   
-    su = steps; 
-     Serial.println(su);
+    w1= true;
+    Serial.println("wt");
   }
-  if (data[2] == 'c')
+  if (data[1]=='x')
   {
-    int steps = strtol(data+3, NULL, 10);
+    x1= true;
+    Serial.println("xt");
+  }
+  if (data[2]=='y')
+  {
+    y1= true;
+    Serial.print("yt");
+  }
+  if (data[3]=='z')
+  {
+    z1= true;
+    Serial.print("zt");
+  }
+
+  // check the value for clockwise / anti
+  if (data[4] == 'c')
+  {
+    int steps = strtol(data+5, NULL, 10);
     Serial.print("clock");
     
     rou = steps;
     Serial.println(rou);
      
   }
-  if (data[2] == 'a')
+  if (data[4] == 'a')
   {
-    int steps = strtol(data+3, NULL, 10);
+    int steps = strtol(data+5, NULL, 10);
     Serial.print("clock");
     
     rou = -steps;
      Serial.println(rou);
   }
-   if (data[4] == 'r')
+
+  // check value of rpm
+   if (data[6] == 'r')
   {
-    int steps = strtol(data+5, NULL, 10);
+    int steps = strtol(data+7, NULL, 10);
     Serial.print("rpm");
     
     rp = steps;
     Serial.println(rp); 
   }
-  if (data[5] == 'r')
+  if (data[7] == 'r')
   {
-    int steps = strtol(data+6, NULL, 10);
+    int steps = strtol(data+8, NULL, 10);
     Serial.print("rpm");
     
     rp = steps;
@@ -146,68 +170,16 @@ void seqorder (char* data)
      while (stepper.distanceToGo() != 0 )
   {
     stepper.run();
-  //  if (su > 0 && (stepper.distanceToGo() % (motormovement(rou) / su) == 0))
-   // {
-   //  linear3(1);
-  //  }
-
       if (stepper.distanceToGo() == (motormovement(rou)/2))
     {
-     linear3(1);
+     startLinear(w1,x1,y1,z1);
     }
   }
-}
 
-
-int linear1(int L1, int L2, int L3, int L4) {
-  if (L1 != 0)
-  {
-  int x = 0;
-  while (x <  L1) {
-    relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
-    //delay(50);
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(50);
-    L1--;
-    Serial.print(L1);
-  }
-  }
-  if (L2 != 0)
-  {
-    int x = 0;
-  while (x <  L2) {
-    relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_1
-    delay(50);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-     delay(50);
-    L2--;
-    Serial.print(L2);
-  }
-  }
-  if (L3 != 0)
-  {
-    int x = 0;
-  while (x <  L3) {
-    relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-    delay(50);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-     delay(50);
-    L3--;
-    Serial.print(L3);
-  }  
-  }
-  if (L4 != 0)
-  {
-    int x = 0;
-  while (x <  L4) {
-    relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-    delay(50);//delay 2s0
-    relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-     delay(50);
-    L4--;
-    Serial.print(L4);
-  }
-  }
+  w1= false;
+  x1= false;
+  y1= false;
+  z1= false;
 }
 
 
@@ -265,7 +237,7 @@ int linear4(int L4) {
   }
 }
 
-//clockwise
+/*//clockwise
 int clockw(int clw)
 {
  stepper.moveTo(8 * 200 *clw);
@@ -281,9 +253,9 @@ int anticlockw(int aclw)
   stepper.runToPosition();
   
 }
+*/
 
-
-//adjustable code
+/*//adjustable code
 int motorcode7 (int spd, int clw, int L1, int L2, int L3, int L4, int aclw, int rounds)
 {
   stepper.setAcceleration(spd);
@@ -326,3 +298,4 @@ int motorcode7 (int spd, int clw, int L1, int L2, int L3, int L4, int aclw, int 
     rounds--;
   }
 }
+*/
