@@ -1,6 +1,6 @@
 //motorcode 1
 void motorcode1() {
-  stepper.setAcceleration(100);
+  /*stepper.setAcceleration(100);
   stepper.setCurrentPosition(0);
   stepper.moveTo(motormovement(10));
   while (stepper.distanceToGo() != 0 )
@@ -24,7 +24,12 @@ void motorcode1() {
     
     
   }
- 
+ */
+
+ linear1(1);
+ linear2(2);
+ linear3(1);
+ linear4(1);
 }
 
 //motor code 2

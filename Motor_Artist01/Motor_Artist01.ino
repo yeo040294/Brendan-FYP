@@ -200,28 +200,51 @@ void loop () {
     newsel = sel;
     if ((sel == 0) && (digitalRead(buttonPin_SET) == LOW))        //paatern 1
     {
+       pattern_1();
+      option = 30;
+      if ( digitalRead(buttonPin_LFT)==LOW)
+              {
+                option = 2;
+                choice(4, pat_choice, sel);
+                //sel = 0;
+              }
+      Serial.print("RIGHT PRESS");
       delay(100);
-      option = 3;
-      pattern_1();
+      
+     
     }
     else if ((sel == 1) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
     {
-      option = 4;
+      option = 40;
       pattern_2();
+      if ( digitalRead(buttonPin_LFT)==LOW)
+              {
+                option = 2;
+                choice(4, pat_choice, sel);
+                //sel = 1;
+              }
+      
     }
     else if ((sel == 2) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
     {
-      option = 5;
+      option = 50;
       pattern_3();
+            if ( digitalRead(buttonPin_LFT)==LOW)
+              {
+                option = 2;
+                choice(4, pat_choice, sel);
+                //sel = 2;
+              }
     }
     else if ((sel == 3) && (digitalRead(buttonPin_SET) == LOW))   //customise option
-      option = 6;
+      option = 60;
+      
     delay(100);
   }
 
 
 
-  if ((option == 6))                        //customise page
+  if ((option == 60))                        //customise page
   {
     delay(200);
     se = getupdown (9, se);
@@ -246,7 +269,7 @@ void loop () {
         if (digitalRead(buttonPin_SET) == LOW)
         {
           delay(100);
-          option = 6;
+          option = 60;
           se = 1;                            // go to clockwise/anticlockwise option
           break;
         }
@@ -264,7 +287,7 @@ void loop () {
         {
           dataupdates(1);                       // T/F
           delay(100);
-          option = 6;
+          option = 60;
           se = 2;                             // go to piston 1
           break;
         }
@@ -283,7 +306,7 @@ void loop () {
         {
           dataupdates(2);                     // T/F
           delay(100);
-          option = 6;
+          option = 60;
           se = 3;                            // go to piston 2
           break;
         }
@@ -300,7 +323,7 @@ void loop () {
         {
           dataupdates(3);                     // T/F
           delay(100);
-          option = 6;
+          option = 60;
           se = 4;                            // go to piston 3
           break;
         }
@@ -318,7 +341,7 @@ void loop () {
         {
           dataupdates(4);                     // T/F
           delay(100);
-          option = 6;
+          option = 60;
           se = 5;                            // go to piston 4
           break;
         }
@@ -336,7 +359,7 @@ void loop () {
         {
           dataupdates(5);                     // T/F
           delay(100);
-          option = 6;
+          option = 60;
           se = 6;                            // go to rpm
           break;
         }
@@ -364,7 +387,7 @@ void loop () {
         {
 
           delay(100);
-          option = 6;         
+          option = 60;         
           se = 7;                            // go to NEXT
           break;
         }
@@ -436,7 +459,7 @@ void loop () {
           p4 = false;
           rpm = 50;
           //motorsum = 0;
-          option = 6;                           //go to rounds
+          option = 60;                           //go to rounds
           se = 0;
           break;
         }
@@ -459,7 +482,7 @@ void loop () {
           tft.print(F("Executing\n  Custom\n     1"));
           split(testing);
           delay(100);
-          option = 6;
+          option = 60;
           se = 0;                            // go to rounds
           break;
         }
@@ -470,7 +493,7 @@ void loop () {
 
 
   // pattern 1 execution
-  if ((option  == 3) && (digitalRead(buttonPin_SET) == LOW))
+  if ((option  == 30) && (digitalRead(buttonPin_SET) == LOW))
   {
     tft.fillScreen(BLACK);
     tft.setTextSize(2);
@@ -481,8 +504,11 @@ void loop () {
     Serial.print("code");
   }
 
+
+
+
   // pattern 2 execution
-  if ((option  == 4) && (digitalRead(buttonPin_SET) == LOW))
+  if ((option  == 40) && (digitalRead(buttonPin_SET) == LOW))
   {
     tft.fillScreen(BLACK);
     tft.setTextSize(2);
@@ -493,7 +519,7 @@ void loop () {
   }
 
   // pattern 3 execution
-  if ((option  == 5) && (digitalRead(buttonPin_SET) == LOW))
+  if ((option  == 50) && (digitalRead(buttonPin_SET) == LOW))
   {
     tft.fillScreen(BLACK);
     tft.setTextSize(2);

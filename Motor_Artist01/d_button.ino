@@ -12,17 +12,31 @@ void mainscreenoption()
         break;
       case 2: sel = 0;
         choice(4, pat_choice, sel);               // pattern selection page
+        
         break;
-      case 3: pattern_1();
-        break;
-      case 4: pattern_2();
-        break;
-      case 5: pattern_3();
+      case 30: pattern_1();
+             /* if ( digitalRead(buttonPin_LFT)==LOW)
+              {
+                option = 2;
+                choice(4, pat_choice, sel);
+              }
+              */
+      break;
+      case 40: pattern_2();
+       break;
+      case 50: pattern_3();
         break;     
-      case 6: se = 0;   
+      case 60: se = 0;   
       custom();
         break;
-      default : break;
+      default : if ( option > 10)
+                {
+                  option = round(option/10) *10;
+                }
+                else if (option < 0)
+                option = 0;
+                else 
+                option = 2;
     }
     newoption = option;
   }
@@ -81,14 +95,14 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
   else  {
     for (int i = 0; i < choice_opt; i++)
     {
-      if ( i == 8 )
+      /*if ( i == 8 )
       {
         tft.setTextSize(1);
       tft.setCursor(50, 50 + (i-1) * 12 - 12);
       strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
       tft.println(buffer);
-      }
-      else if (i < 8){
+      }*/
+      if (i < 9){
       tft.setTextSize(1);
       tft.setCursor(15, 50 + i * 12 - 12);
       strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
@@ -112,7 +126,7 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
     else if (select == 7)
       tft.drawRect(13, 52 + select * 12 - 12 - 7, 30, 13, WHITE);
     else
-      tft.drawRect(48, 52 + (select-1) * 12 - 12 - 7, 50, 13, WHITE);
+     tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
   }
   tft.drawBitmap (90, 5, up_15, 15, 15, WHITE, BLACK);
   tft.drawBitmap (90, 140, down_15, 15, 15, WHITE, BLACK);
