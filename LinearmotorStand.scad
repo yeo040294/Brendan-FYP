@@ -5,7 +5,7 @@
 //stand();
 
 // linear motor stand
-linear_motor();
+//linear_motor();
 
 
 // test cylinder
@@ -13,12 +13,40 @@ linear_motor();
 translate([1,0,1])
 rotate([90,90,0])
 cylinder(2,d=2);*/
+translate([-5,-5,0])
+stand();
+translate([25,25,0])
+linear_motor();
+
+
+rotate([0,0,90])
+translate([-5,-5,0])
+stand();
+rotate([0,0,90])
+translate([25,25,0])
+linear_motor();
+
+
+rotate([0,0,180])
+translate([-5,-5,0])
+stand();
+rotate([0,0,180])
+translate([25,25,0])
+linear_motor();
+
+
+rotate([0,0,270])
+translate([-5,-5,0])
+stand();
+rotate([0,0,270])
+translate([25,25,0])
+linear_motor();
 
 module stand() {
 difference()
 {
     stand_width = 20;
-    stand_height = 57.4;
+    stand_height = 107;
     base_width = 40;
     base_height = 3;
     union() {
@@ -30,12 +58,14 @@ difference()
     }
         */
         //stand
-    translate([base_width/4, base_width/4,0])   
-    cube([stand_width,stand_width,stand_height]);
+      
+    //cube([stand_width,stand_width,stand_height]);
+        translate([base_width/2, base_width/2,0]) 
+        cylinder(stand_height,d = stand_width);
     
         //base
         
-    cube([base_width, base_width, base_height]);
+    //cube([base_width, base_width, base_height]);
         
         
         }
@@ -43,7 +73,12 @@ difference()
         // hold for middle screw
         translate([base_width/2,base_width/2,stand_height-30])
        cylinder(50,d=4);
+        
+        // hold for middle bottom screw
+        translate([base_width/2,base_width/2,0])
+       cylinder(50,d=4);
     //hold for screw
+        /*
         translate([7*base_width/8,7*base_width/8,-base_height])
        cylinder(10,d=4);
         translate([1*base_width/8,7*base_width/8,-base_height])
@@ -51,7 +86,7 @@ difference()
        translate([1*base_width/8,1*base_width/8,-base_height])
        cylinder(10,d=4);
        translate([7*base_width/8,1*base_width/8,-base_height])
-       cylinder(10,d=4);
+       cylinder(10,d=4);*/
     
 }
 }

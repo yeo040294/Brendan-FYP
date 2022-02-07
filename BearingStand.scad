@@ -3,6 +3,12 @@
 
 //ball bearing stand
 stand();
+rotate([0,0,90])
+stand();
+rotate([0,0,180])
+stand();
+rotate([0,0,270])
+stand();
 
 module stand() {
 difference()
