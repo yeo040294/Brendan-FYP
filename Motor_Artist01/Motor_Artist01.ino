@@ -189,6 +189,7 @@ void setup () {
 }
 
 void loop () {
+  
   mainscreenoption();
   // selection pattern page
   if ((option == 2))
@@ -204,9 +205,12 @@ void loop () {
       option = 30;
       if ( digitalRead(buttonPin_LFT)==LOW)
               {
+                if (updateMenu){
+                tft.fillScreen(BLACK);
                 option = 2;
-                choice(4, pat_choice, sel);
-                //sel = 0;
+                choice(4, pat_choice, 0);
+                }
+                
               }
       Serial.print("RIGHT PRESS");
       delay(100);
@@ -483,7 +487,7 @@ void loop () {
           split(testing);
           delay(100);
           option = 60;
-          se = 0;                            // go to rounds
+          se = 7;                            // go to rounds
           break;
         }
       } while (option = -1);
