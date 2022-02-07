@@ -208,6 +208,7 @@ void loop () {
                 if (updateMenu){
                 tft.fillScreen(BLACK);
                 option = 2;
+                //newoption = 3;
                 choice(4, pat_choice, 0);
                 }
                 
@@ -252,9 +253,13 @@ void loop () {
   {
     delay(200);
     se = getupdown (9, se);
-    if (se != newse) {
+    if (se != newse) { // change this if statement
       custom();
     }
+    /*
+     * custom();
+     * se = getupdown(9,se);
+     */
     newse = se;
 
     if ((se == 0) && (digitalRead(buttonPin_SET) == LOW))        //rounds
@@ -274,7 +279,11 @@ void loop () {
         {
           delay(100);
           option = 60;
-          se = 1;                            // go to clockwise/anticlockwise option
+          se = 0;                            // go to clockwise/anticlockwise option
+          // put newse here (to fulfill condition)
+          /*
+           * updateMenu = true;
+           */
           break;
         }
       } while (option = -1);

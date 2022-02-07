@@ -74,6 +74,9 @@ void pattern_3() {
 }
 
 void custom() {
+  /*
+   * if (!updateMenu) return;
+   */
     choice(9, option_choice, se);
       tft.setCursor(20,20);
       tft.print("Customise");
