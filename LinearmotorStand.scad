@@ -57,16 +57,16 @@ difference()
 }
 
 module linear_motor() {
-    base_width = 40;
+    base_width = 60;
     base_height = 3;
     thickness = 3;
-    motor_width = 22.5;
-    motor_depth = 25.5;
-    motor_height = 27;
-    linear_height = 51.5;  //default 52.5
+    motor_width = 30.5;
+    motor_depth = 38.5;
+    motor_height = 64;
+    linear_height = 38.5;  //default 52.5
     
-    back_piston_deep = 8.5+10;
-    back_piston_width = 10;
+    back_piston_deep = 37;
+    back_piston_width = 15;
     
     padded_width = motor_width+thickness;
     padded_depth = motor_depth+thickness;
@@ -96,6 +96,7 @@ module linear_motor() {
         }
         
         // screws
+        
         translate([7*base_width/8,7*base_width/8,-base_height])
             cylinder(10,d=4);
         translate([1*base_width/8,7*base_width/8,-base_height])
@@ -110,16 +111,17 @@ module linear_motor() {
             cylinder(back_piston_deep, d=back_piston_width);
         
         // screw holes linear motor
+        /*
         translate([(base_width-padded_width)/2+5+1,(base_width-padded_depth)/2+thickness,linear_height+19.5+1])
         rotate([90,90,0])
-            cylinder(thickness,d=2);
+            cylinder(thickness,d=3);
         
         translate([(base_width-padded_width)/2+17+1,(base_width-padded_depth)/2+thickness,linear_height+4.5+1])
         rotate([90,90,0])
-            cylinder(thickness,d=2);
+            cylinder(thickness,d=3);*/
             
         // hole 
-        translate([(base_width-padded_width)/2+motor_width,(base_width-7)/2,linear_height])
-            cube([thickness,7,7]);
+        translate([(base_width-padded_width)/2+motor_width,(base_width-10)/2,linear_height])
+            cube([thickness,10,10]);
     }
 }
