@@ -17,10 +17,13 @@ void mainscreenoption()
       case 30: pattern_1();
              /* if ( digitalRead(buttonPin_LFT)==LOW)
               {
+                updateMenu = true;
+                newsel = 100;
                 option = 2;
+                sel = 0;
                 choice(4, pat_choice, sel);
-              }
-              */
+              }*/
+              
       break;
       case 40: pattern_2();
        break;
@@ -73,7 +76,7 @@ if (string_table == customise1)
 }
 
 void choice(int choice_opt ,  const char *const string_table[], int select) {
-
+//if (!updateMenu) return;
   tft.fillScreen(BLACK);
   if (choice_opt == 4)  {
     for (int i = 0; i < choice_opt; i++)

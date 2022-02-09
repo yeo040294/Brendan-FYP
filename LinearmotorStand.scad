@@ -13,31 +13,31 @@
 translate([1,0,1])
 rotate([90,90,0])
 cylinder(2,d=2);*/
-translate([-5,-5,0])
-stand();
+//translate([-5,-5,0])
+//stand();
 translate([25,25,0])
 linear_motor();
 
 
+//rotate([0,0,90])
+//translate([-5,-5,0])
+//stand();
 rotate([0,0,90])
-translate([-5,-5,0])
-stand();
-rotate([0,0,90])
 translate([25,25,0])
 linear_motor();
 
 
-rotate([0,0,180])
-translate([-5,-5,0])
-stand();
+//rotate([0,0,180])
+//translate([-5,-5,0])
+//stand();
 rotate([0,0,180])
 translate([25,25,0])
 linear_motor();
 
 
-rotate([0,0,270])
-translate([-5,-5,0])
-stand();
+//rotate([0,0,270])
+//translate([-5,-5,0])
+//stand();
 rotate([0,0,270])
 translate([25,25,0])
 linear_motor();
@@ -91,6 +91,7 @@ difference()
 }
 }
 
+
 module linear_motor() {
     base_width = 60;
     base_height = 3;
@@ -110,23 +111,25 @@ module linear_motor() {
         union() {
             
             // base
+            translate([-1,0,0])
             cube([base_width, base_width, base_height]);
-            
+            //x-thickness-1.5, y -1.5
             // linear motor base
-            translate([(base_width-padded_width)/2,(base_width-padded_depth)/2,0])
-            cube([padded_width,padded_depth,linear_height]);
+            translate([(base_width-padded_width)/2-thickness-1.5,(base_width-padded_depth)/2-1.5,0])
+            cube([padded_width+1.5+thickness+1.5,padded_depth+1.5+1.5,linear_height]);
             
-            // holder
-            translate([(base_width-padded_width)/2,(base_width-padded_depth)/2,linear_height])
-            cube([padded_width,thickness,motor_height]);
-            
-            translate([(base_width-padded_width)/2,(base_width-padded_depth)/2,linear_height])
+            // holder 
+            // y -1.5mm
+            translate([(base_width-padded_width)/2-1.5-thickness,(base_width-padded_depth)/2-1.5,linear_height])
+            cube([padded_width+1.5+1.5+thickness,thickness,motor_height]);
+            //x-thickness Add 1.5mm
+            translate([(base_width-padded_width)/2-thickness-1.5,(base_width-padded_depth)/2,linear_height])
             cube([thickness,padded_depth,motor_height]);
-            
-            translate([(base_width-padded_width)/2,(base_width-padded_depth)/2+motor_depth,linear_height])
-            cube([padded_width,thickness,motor_height]);
-            
-            translate([(base_width-padded_width)/2+motor_width,(base_width-padded_depth)/2,linear_height])
+            //side y add 1.5mm
+            translate([(base_width-padded_width)/2-thickness-1.5,(base_width-padded_depth)/2+motor_depth+1.5,linear_height])
+            cube([padded_width+1.5+thickness+1.5,thickness,motor_height]);
+            //x +1.5mm with the hole
+            translate([(base_width-padded_width)/2+motor_width+1.5,(base_width-padded_depth)/2,linear_height])
             cube([thickness,padded_depth,motor_height]);
         }
         
@@ -134,16 +137,16 @@ module linear_motor() {
         
         translate([7*base_width/8,7*base_width/8,-base_height])
             cylinder(10,d=4);
-        translate([1*base_width/8,7*base_width/8,-base_height])
+        translate([1*base_width/8-2,7*base_width/8,-base_height])
             cylinder(10,d=4);
-       translate([1*base_width/8,1*base_width/8,-base_height])
+       translate([1*base_width/8-2,1*base_width/8,-base_height])
             cylinder(10,d=4);
        translate([7*base_width/8,1*base_width/8,-base_height])
             cylinder(10,d=4);
         
         // hole for piston back
-        translate([base_width/2,base_width/2,linear_height-back_piston_deep])
-            cylinder(back_piston_deep, d=back_piston_width);
+        translate([(base_width)/2-1,base_width/2-1,linear_height-back_piston_deep])
+            cylinder(back_piston_deep, d=back_piston_width+2);
         
         // screw holes linear motor
         /*
@@ -156,7 +159,7 @@ module linear_motor() {
             cylinder(thickness,d=3);*/
             
         // hole 
-        translate([(base_width-padded_width)/2+motor_width,(base_width-10)/2,linear_height])
+        translate([(base_width-padded_width)/2+motor_width+1.5,(base_width-10)/2,linear_height])
             cube([thickness,10,10]);
     }
 }
