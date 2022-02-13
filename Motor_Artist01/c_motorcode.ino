@@ -88,9 +88,9 @@ int motormovement(int val )
 
 int startLinear(bool L1, bool L2, bool L3, bool L4) {
   relay_SetStatus(!L1, !L2, !L3, !L4);
-  delay(50);
+  delay(200);
   relay_SetStatus(OFF, OFF, OFF, OFF);
-  delay(50);
+  delay(200);
 }
 
 void split(char* data)
@@ -194,9 +194,9 @@ int linear1(int L1) {
   int x = 0;
   while (x <  L1) {
     relay_SetStatus(ON, OFF, OFF, OFF);//turn off RELAY_1
-    delay(50);
+    delay(200);
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(50);
+    delay(200);
     L1--;
     Serial.print(L1);
   }
@@ -207,10 +207,10 @@ int linear2(int L2) {
   int x = 0;
   while (x <  L2) {
     relay_SetStatus(OFF, ON, OFF, OFF);//turn off RELAY_2
-    delay(50);//delay 2s0
+    delay(200);//delay 2s0
     //delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(50);
+    delay(200);
     L2--;
     Serial.print(L2);
   }
@@ -221,9 +221,9 @@ int linear3(int L3) {
   int x = 0;
   while (x <  L3) {
     relay_SetStatus(OFF, OFF, ON, OFF);//turn off RELAY_1
-     delay(50);//delay 2s0
+     delay(200);//delay 2s0
      relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(50);
+    delay(200);
     L3--;
     Serial.print(L3);
   }
@@ -234,9 +234,9 @@ int linear4(int L4) {
   int x = 0;
   while (x <  L4) {
     relay_SetStatus(OFF, OFF, OFF, ON);//turn off RELAY_1
-    delay(50);//delay 2s0
+    delay(200);//delay 2s0
     relay_SetStatus(OFF, OFF, OFF, OFF);//turn off RELAY_1
-    delay(50);
+    delay(200);
     L4--;
     Serial.print(L4);
   }
