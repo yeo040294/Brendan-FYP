@@ -181,7 +181,7 @@ void setup () {
 }
 
 void loop () {
-  
+
   mainscreenoption();
   // selection pattern page
   if ((option == 2))
@@ -193,62 +193,39 @@ void loop () {
     newsel = sel;
     if ((sel == 0) && (digitalRead(buttonPin_SET) == LOW))        //paatern 1
     {
-       pattern_1();
-       option = 30;
-       sel = 0;
-       
-       newsel = 10;
-    /* if ( digitalRead(buttonPin_UP)==LOW)
-              {
-                newsel = 3;    
-                option = 2;
-                sel=0;   
-              }
-     */         
+      pattern_1();
+      option = 30;
+      sel = 0;
+      newsel = 10;
       Serial.print("RIGHT PRESS");
       delay(100);
-      
-     
+
+
     }
     else if ((sel == 1) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
     {
       pattern_2();
       option = 40;
-      sel =1;
+      sel = 1;
       newsel = 10;
       delay(100);
-      /*if ( digitalRead(buttonPin_LFT)==LOW)
-              {
-                option = 2;
-                choice(4, pat_choice, sel);
-                //sel = 1;
-              }
-      */
     }
-    
+
     else if ((sel == 2) && (digitalRead(buttonPin_SET) == LOW))   //pattern 2
     {
       pattern_3();
       option = 50;
-       sel=2;
+      sel = 2;
       newsel = 10;
       delay(100);
-         /*   if ( digitalRead(buttonPin_LFT)==LOW)
-              {
-                option = 2;
-                choice(4, pat_choice, sel);
-                //sel = 2;
-              }
-              */
     }
-    
+
     else if ((sel == 3) && (digitalRead(buttonPin_SET) == LOW))   //customise option
     {
-       delay(100);
+      delay(100);
       option = 60;
-      sel=3;
+      sel = 3;
       newsel = 10;
-      
     }
   }
 
@@ -261,10 +238,6 @@ void loop () {
     if (se != newse) { // change this if statement
       custom();
     }
-    /*
-     * custom();
-     * se = getupdown(9,se);
-     */
     newse = se;
 
     if ((se == 0) && (digitalRead(buttonPin_SET) == LOW))        //rounds
@@ -282,14 +255,10 @@ void loop () {
         dataupdates(0);                     // increase / decrease rounds
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           delay(100);
           option = 60;
           se = 0;                            // go to clockwise/anticlockwise option
-          // put newse here (to fulfill condition)
-          /*
-           * updateMenu = true;
-           */
           break;
         }
       } while (option = -1);
@@ -298,10 +267,10 @@ void loop () {
     else if ((se == 1) && (digitalRead(buttonPin_SET) == LOW))      // clockwise anticlockwise
     {
       option = -1;
-      do {                       
+      do {
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           dataupdates(1);                       // T/F
           delay(100);
           option = 60;
@@ -320,7 +289,7 @@ void loop () {
         // T/F
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           dataupdates(2);                     // T/F
           option = 60;
           se = 2;                            // go to piston 2
@@ -336,7 +305,7 @@ void loop () {
         // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           dataupdates(3);                     // T/F
           option = 60;
           se = 3;                            // go to piston 3
@@ -353,7 +322,7 @@ void loop () {
         // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           dataupdates(4);                     // T/F
           option = 60;
           se = 4;                            // go to piston 4
@@ -370,7 +339,7 @@ void loop () {
         // increase / decrease motor 4
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           dataupdates(5);                     // T/F
           option = 60;
           se = 5;                            // go to rpm
@@ -387,7 +356,7 @@ void loop () {
       option = -1;
       do {
         if (updateMenu) {
-          updateMenu = false;   
+          updateMenu = false;
           tft.drawBitmap (80, 108, right_15, 15, 15, BLACK, WHITE);
           tft.fillRect(100, 110, 20, 10, BLACK);
           tft.setCursor(100, 110);
@@ -395,12 +364,12 @@ void loop () {
         }
 
 
-        dataupdates(6);                       // increase / decrease rpm 
+        dataupdates(6);                       // increase / decrease rpm
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           delay(100);
-          option = 60;         
+          option = 60;
           se = 6;                            // go to NEXT
           break;
         }
@@ -415,40 +384,35 @@ void loop () {
       do {
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           if (p1 == true)
           {
             strcat(testing, "w");
-           // motorsum = motorsum + 1;
+            // motorsum = motorsum + 1;
           }
           else
             strcat(testing, "f");
           if (p2 == true)
           {
             strcat(testing, "x");
-          //  motorsum = motorsum + 1;
+            //  motorsum = motorsum + 1;
           }
           else
             strcat(testing, "f");
           if (p3 == true)
           {
             strcat(testing, "y");
-         //   motorsum = motorsum + 1;
+            //   motorsum = motorsum + 1;
           }
           else
             strcat(testing, "f");
           if (p4 == true)
           {
             strcat(testing, "z");
-         //   motorsum = motorsum + 1;
+            //   motorsum = motorsum + 1;
           }
           else
             strcat(testing, "f");
-
-         /* strcat(testing, "m");
-          itoa(motorsum, buffer1, 10);
-          strcat(testing, buffer1);
-          */
           if (caw == true )
             strcat(testing, "c");
           else
@@ -490,7 +454,7 @@ void loop () {
 
         if (digitalRead(buttonPin_SET) == LOW)
         {
-          newse=10;
+          newse = 10;
           tft.fillScreen(BLACK);
           tft.setTextSize(2);
           tft.setCursor(10, 35);
@@ -502,7 +466,6 @@ void loop () {
           break;
         }
       } while (option = -1);
-
     }
   }
 
@@ -518,8 +481,6 @@ void loop () {
     pattern_1();
     Serial.print("code");
   }
-
-
 
   // pattern 2 execution
   if ((option  == 40) && (digitalRead(buttonPin_SET) == LOW))

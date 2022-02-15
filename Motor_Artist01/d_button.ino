@@ -12,34 +12,25 @@ void mainscreenoption()
         break;
       case 2: sel = 0;
         choice(4, pat_choice, sel);               // pattern selection page
-        
+
         break;
       case 30: pattern_1();
-             /* if ( digitalRead(buttonPin_LFT)==LOW)
-              {
-                updateMenu = true;
-                newsel = 100;
-                option = 2;
-                sel = 0;
-                choice(4, pat_choice, sel);
-              }*/
-              
-      break;
+        break;
       case 40: pattern_2();
-       break;
+        break;
       case 50: pattern_3();
-        break;     
-      case 60: se = 0;   
-      custom();
+        break;
+      case 60: se = 0;
+        custom();
         break;
       default : if ( option > 10)
-                {
-                  option = round(option/10) *10;
-                }
-                else if (option < 0)
-                option = 0;
-                else 
-                option = 2;
+        {
+          option = round(option / 10) * 10;
+        }
+        else if (option < 0)
+          option = 0;
+        else
+          option = 2;
     }
     newoption = option;
   }
@@ -48,8 +39,8 @@ void mainscreenoption()
 void menu(int menu_opt ,  const char *const string_table[]) {
   tft.fillScreen(BLACK);
   tft.setTextSize(2);
-//  if (string_table == customise1 || string_table == customise2)
-if (string_table == customise1)
+  //  if (string_table == customise1 || string_table == customise2)
+  if (string_table == customise1)
   {
     tft.setCursor(20, 10);
     strcpy_P(buffer, (char *)pgm_read_word(&(string_table[0])));
@@ -76,7 +67,7 @@ if (string_table == customise1)
 }
 
 void choice(int choice_opt ,  const char *const string_table[], int select) {
-//if (!updateMenu) return;
+  //if (!updateMenu) return;
   tft.fillScreen(BLACK);
   if (choice_opt == 4)  {
     for (int i = 0; i < choice_opt; i++)
@@ -98,18 +89,11 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
   else  {
     for (int i = 0; i < choice_opt; i++)
     {
-      /*if ( i == 8 )
-      {
+      if (i < 9) {
         tft.setTextSize(1);
-      tft.setCursor(50, 50 + (i-1) * 12 - 12);
-      strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
-      tft.println(buffer);
-      }*/
-      if (i < 9){
-      tft.setTextSize(1);
-      tft.setCursor(15, 50 + i * 12 - 12);
-      strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
-      tft.println(buffer);
+        tft.setCursor(15, 50 + i * 12 - 12);
+        strcpy_P(buffer, (char *)pgm_read_word(&(string_table[i])));
+        tft.println(buffer);
       }
     }
     if (select == 0)
@@ -129,7 +113,7 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
     else if (select == 7)
       tft.drawRect(13, 52 + select * 12 - 12 - 7, 30, 13, WHITE);
     else
-     tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
+      tft.drawRect(13, 52 + select * 12 - 12 - 7, 60, 13, WHITE);
   }
   tft.drawBitmap (90, 5, up_15, 15, 15, WHITE, BLACK);
   tft.drawBitmap (90, 140, down_15, 15, 15, WHITE, BLACK);
@@ -139,17 +123,17 @@ void choice(int choice_opt ,  const char *const string_table[], int select) {
 //update of customise variable ( rpm / clockwise / anticlockwise / delay / cycle )
 int dataupdates( int opt)
 {
- 
-  updateMenu=false;
+
+  updateMenu = false;
   suboption = opt;
 
   //rounds update
   if (digitalRead(buttonPin_RHT) == LOW && suboption == 0)
   {
-   updateMenu = true;
+    updateMenu = true;
     roun = roun  + 1;
-     delay(100);
-    
+    delay(100);
+
   }
   else if ((digitalRead(buttonPin_LFT) == LOW) && roun  > 0 && suboption == 0)
   {
@@ -171,17 +155,17 @@ int dataupdates( int opt)
   // Lin 1 T/F
   if (digitalRead(buttonPin_SET) == LOW && p1 == true && suboption == 2)
   {
-   p1 = false;
+    p1 = false;
   }
   else if ((digitalRead(buttonPin_SET) == LOW) && p1 == false && suboption == 2)
   {
     p1 = true;
   }
-  
+
   // Lin 2 T/F
   if (digitalRead(buttonPin_SET) == LOW && p2 == true && suboption == 3)
   {
-   p2 = false;
+    p2 = false;
   }
   else if ((digitalRead(buttonPin_SET) == LOW) && p2 == false && suboption == 3)
   {
@@ -189,7 +173,7 @@ int dataupdates( int opt)
   }
 
   // Lin 3 T/F
-  if (digitalRead(buttonPin_SET) == LOW && p3 == true&& suboption == 4)
+  if (digitalRead(buttonPin_SET) == LOW && p3 == true && suboption == 4)
   {
     p3 = false;
   }
@@ -199,7 +183,7 @@ int dataupdates( int opt)
   }
 
   // Lin 4 T/F
-  if (digitalRead(buttonPin_SET) == LOW && p4 == true&& suboption == 5)
+  if (digitalRead(buttonPin_SET) == LOW && p4 == true && suboption == 5)
   {
     p4 = false;
   }
@@ -210,13 +194,13 @@ int dataupdates( int opt)
   // RPM
   if (digitalRead(buttonPin_RHT) == LOW && rpm < 650 && suboption == 6)
   {
-     updateMenu = true;
+    updateMenu = true;
     rpm = rpm  + 10;
     delay(100);
   }
   else if ((digitalRead(buttonPin_LFT) == LOW) && rpm > 0 && suboption == 6)
   {
-     updateMenu = true;
+    updateMenu = true;
     rpm = rpm  - 10;
     delay(100);
   }
@@ -224,12 +208,7 @@ int dataupdates( int opt)
 }
 
 void state (int menu_opt, const char *const string_table[]) {
-
-  
-   //if (!updateMenu) return;
-  //updateMenu=false;
- 
-  int i = menu_opt;  
+  int i = menu_opt;
   tft.fillScreen(BLACK);
   tft.setTextSize(2);
   tft.setCursor(20, 35);

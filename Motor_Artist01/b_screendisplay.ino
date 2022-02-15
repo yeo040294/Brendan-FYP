@@ -75,38 +75,38 @@ void pattern_3() {
 
 void custom() {
   /*
-   * if (!updateMenu) return;
-   */
-    choice(9, option_choice, se);
-      tft.setCursor(20,20);
-      tft.print("Customise");
-      tft.setCursor(100, 40);
-      tft.print(roun);
-      tft.setCursor(100, 50);
-      if (caw)
-        tft.print("T");
-      else
-        tft.print("F");
-      tft.setCursor(100, 62);
-      if (p1)
-        tft.print("T");
-      else
-        tft.print("F");
-      tft.setCursor(100, 74);
-      if (p2)
-        tft.print("T");
-      else
-        tft.print("F");
-      tft.setCursor(100, 86);
-      if (p3)
-        tft.print("T");
-      else
-        tft.print("F");
-      tft.setCursor(100, 98);
-      if (p4)
-        tft.print("T");
-      else
-        tft.print("F");
-      tft.setCursor(100, 110);
-      tft.print(rpm);                  
+     if (!updateMenu) return;
+  */
+  choice(9, option_choice, se);
+  tft.setCursor(20, 20);
+  tft.print("Customise");
+  tft.setCursor(100, 40);
+  tft.print(roun);
+  tft.setCursor(100, 50);
+  if (caw)
+    tft.print("T");
+  else
+    tft.print("F");
+  tft.setCursor(100, 62);
+  if (p1)
+    tft.print("T");
+  else
+    tft.print("F");
+  tft.setCursor(100, 74);
+  if (p2)
+    tft.print("T");
+  else
+    tft.print("F");
+  tft.setCursor(100, 86);
+  if (p3)
+    tft.print("T");
+  else
+    tft.print("F");
+  tft.setCursor(100, 98);
+  if (p4)
+    tft.print("T");
+  else
+    tft.print("F");
+  tft.setCursor(100, 110);
+  tft.print(rpm);
 }
