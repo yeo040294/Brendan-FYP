@@ -6,7 +6,7 @@
 
 #define TFT_RST  12
 #define TFT_CS   10
-#define TFT_DC   2
+#define TFT_DC   9
 
 #define MOTOR_STEPS 200
 #define DIR A4
@@ -21,8 +21,8 @@
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
 
-#define SENSOR 6
-#define SENSORRIGHT 5
+#define SENSOR 5
+#define SENSORRIGHT 6
 #define MOTOR_STEPS 200
 #define DIR A4
 #define STEP A3
@@ -86,16 +86,16 @@ void loop()
 
   if (updateMenu){
     updateMenu = false;
-      tft.fillRect(50, 60, 40, 20, BLACK);
+      tft.fillRect(50, 60, 60, 20, BLACK);
       tft.setTextSize(2);
      tft.setCursor(50, 60);
-    tft.print(motorspeed);
+    tft.print(motorspeed/8);
   }
   
   //stepper.runSpeed();
   if ( Xval > 712 ) {
-    if ( sensorLeft == 1) {
-      Serial.println(" Obstacle detected");
+    if ( sensorLeft == 0) {
+      Serial.println(" left Obstacle detected");
      tone ( buzzer , 450);
       delay(500);
       noTone(buzzer);
@@ -109,11 +109,12 @@ void loop()
 
   if (Xval < 100 ) {
     if(sensorRight == 0){
-    Serial.println(" Obstacle detected");
+    Serial.println(" Right Obstacle detected");
       tone ( buzzer , 450);
       delay(500);
       noTone(buzzer);
       delay(500);
+      
       }
       else {
   
@@ -127,7 +128,7 @@ void loop()
     Serial.println(motorspeed);
     updateMenu = true;
   }
-  if (Yval > 712)
+  if (Yval > 712 && motorspeed >0)
   {
     motorspeed = motorspeed -100;
     delay(200);
