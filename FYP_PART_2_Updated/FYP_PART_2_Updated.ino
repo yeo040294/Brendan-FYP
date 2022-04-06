@@ -6,7 +6,7 @@
 
 #define TFT_RST  12
 #define TFT_CS   10
-#define TFT_DC   2
+#define TFT_DC   9
 
 #define MOTOR_STEPS 200
 #define DIR A4
@@ -21,8 +21,8 @@
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
 
-#define SENSOR 6
-#define SENSORRIGHT 5
+#define SENSOR 5
+#define SENSORRIGHT 6
 #define MOTOR_STEPS 200
 #define DIR A4
 #define STEP A3
@@ -47,13 +47,15 @@ int motorspeed =5000;
 //int sensorRight;
 int buzzer = 7;
 bool updateMenu = true;
+bool stepmotion = false;
+int mode = 10;
 
 void setup()
 {
   pinMode (Xpin, INPUT);
   pinMode (Ypin , INPUT);
   pinMode (Spin, INPUT);
-  digitalWrite(Spin, HIGH);
+  //digitalWrite(Spin, HIGH);
   pinMode(SENSOR, INPUT_PULLUP);// define pin as Input  sensor
   pinMode(SENSORRIGHT, INPUT_PULLUP);// define pin as Input  sensor
   Serial.begin(9600);
@@ -73,11 +75,30 @@ void setup()
   tft.print("motion");
   tft.drawBitmap (100, 120, right_15, 15, 15, BLACK, WHITE);
   tft.drawBitmap (20, 120, left_15, 15, 15, BLACK, WHITE);
+  tft.setCursor(50, 130);
+  tft.print("Automatic");
 }
 
 void loop()
 {
-  
+  if ( !digitalRead(Spin)){
+    delay(500);
+    switch (mode){
+      case 1: 
+      updateMenu = true;
+      tft.fillRect(50, 130, 60, 30, BLACK);
+      mode = 10;
+      break;
+      case 10:
+      updateMenu = true;
+      tft.setCursor(50, 130);
+      tft.print("Automatic");
+      mode = 1;
+      break;
+    }
+  }
+
+  while (mode = 10) { 
   int  sensorLeft = digitalRead(SENSOR); // read the sensorleft
   int  sensorRight = digitalRead(SENSORRIGHT);
   Xval = analogRead(Xpin);
@@ -86,16 +107,16 @@ void loop()
 
   if (updateMenu){
     updateMenu = false;
-      tft.fillRect(50, 60, 40, 20, BLACK);
+      tft.fillRect(50, 60, 60, 20, BLACK);
       tft.setTextSize(2);
      tft.setCursor(50, 60);
-    tft.print(motorspeed);
+    tft.print(motorspeed/8);
   }
   
   //stepper.runSpeed();
   if ( Xval > 712 ) {
-    if ( sensorLeft == 1) {
-      Serial.println(" Obstacle detected");
+    if ( sensorLeft == 0) {
+      Serial.println(" left Obstacle detected");
      tone ( buzzer , 450);
       delay(500);
       noTone(buzzer);
@@ -109,11 +130,12 @@ void loop()
 
   if (Xval < 100 ) {
     if(sensorRight == 0){
-    Serial.println(" Obstacle detected");
+    Serial.println(" Right Obstacle detected");
       tone ( buzzer , 450);
       delay(500);
       noTone(buzzer);
       delay(500);
+      
       }
       else {
   
@@ -127,12 +149,94 @@ void loop()
     Serial.println(motorspeed);
     updateMenu = true;
   }
-  if (Yval > 712)
+  if (Yval > 712 && motorspeed >0)
   {
     motorspeed = motorspeed -100;
     delay(200);
     Serial.println(motorspeed);
     updateMenu = true;
   }
+  }
 
+
+  while (mode = 1) { 
+  int  sensorLeft = digitalRead(SENSOR); // read the sensorleft
+  int  sensorRight = digitalRead(SENSORRIGHT);
+  Xval = analogRead(Xpin);
+  Yval = analogRead(Ypin);
+  Sval = digitalRead(Spin);
+
+  if (updateMenu){
+    updateMenu = false;
+      tft.fillRect(50, 60, 60, 20, BLACK);
+      tft.setTextSize(2);
+     tft.setCursor(50, 60);
+    tft.print(motorspeed/8);
+  }
+  
+  //stepper.runSpeed(); LEFT
+  if ( Xval > 712 ) {
+//    if ( sensorLeft == 0) {
+//      Serial.println(" left Obstacle detected");
+//     tone ( buzzer , 450);
+//      delay(500);
+//      noTone(buzzer);
+//      delay(500);
+//    }
+//    else {
+//      stepper.setSpeed(-1* motorspeed);
+//      stepper.runSpeed();
+//    }
+  stepmotion = false;
+
+  }
+
+  if (Xval < 100 ) {
+//    if(sensorRight == 0){
+//    Serial.println(" Right Obstacle detected");
+//      tone ( buzzer , 450);
+//      delay(500);
+//      noTone(buzzer);
+//      delay(500);
+//      
+//      }
+//      else {
+//  
+//    stepper.setSpeed(motorspeed);
+//    stepper.runSpeed();
+//      }
+
+  stepmotion = true;
+  while ( stepmotion = true)
+  {
+    stepper.setSpeed(motorspeed);
+    stepper.runSpeed();
+
+    if (sensorRight == 0){
+      stepper.setSpeed(-1* motorspeed);
+      stepper.runSpeed();
+    }
+    else if ( sensorLeft == 0) {
+      stepper.setSpeed(motorspeed);
+    stepper.runSpeed();
+    }
+    
+  }
+
+  
+  }
+  if (Yval < 100){
+    motorspeed = motorspeed + 100;
+    delay(200);
+    Serial.println(motorspeed);
+    updateMenu = true;
+  }
+  if (Yval > 712 && motorspeed >0)
+  {
+    motorspeed = motorspeed -100;
+    delay(200);
+    Serial.println(motorspeed);
+    updateMenu = true;
+  }
+  }
 }
