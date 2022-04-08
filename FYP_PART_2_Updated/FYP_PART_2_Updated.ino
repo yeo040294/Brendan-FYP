@@ -42,7 +42,7 @@ int Spin = 3;
 int Xval;
 int Yval;
 int Sval;
-int motorspeed =5000;
+int motorspeed =5000; 
 //int sensorLeft;
 //int sensorRight;
 int buzzer = 7;
@@ -55,7 +55,7 @@ void setup()
   pinMode (Xpin, INPUT);
   pinMode (Ypin , INPUT);
   pinMode (Spin, INPUT);
-  //digitalWrite(Spin, HIGH);
+  digitalWrite(Spin, HIGH);
   pinMode(SENSOR, INPUT_PULLUP);// define pin as Input  sensor
   pinMode(SENSORRIGHT, INPUT_PULLUP);// define pin as Input  sensor
   Serial.begin(9600);
@@ -63,10 +63,32 @@ void setup()
   stepper.setSpeed(3000);
   tft.setTextColor(WHITE);
   tft.initR (INITR_BLACKTAB);
-  Serial.begin (9600);
   tft.setRotation (0);
   tft.fillScreen (BLACK);
   tft.setTextSize(1);
+  tft.setCursor(40, 20);
+  tft.print("Auto");
+  tft.setTextSize(1);
+  tft.setCursor(40, 100);
+  tft.print("Manual");
+  tft.drawBitmap (70, 100, right_15, 15, 15, BLACK, WHITE);
+  tft.drawBitmap (70, 20, left_15, 15, 15, BLACK, WHITE);
+
+  
+}
+
+void loop()
+{
+    Xval = analogRead(Xpin);
+  Yval = analogRead(Ypin);
+  Sval = digitalRead(Spin);
+   
+  if (Xval > 712 ){
+    delay(500);
+    mode = 1;
+    updateMenu = true;
+    tft.fillScreen (BLACK);
+    tft.setTextSize(1);
   tft.setCursor(40, 20);
   tft.print("Speed is: ");
   tft.drawBitmap (50, 40, up_15, 15, 15, BLACK, WHITE);
@@ -77,27 +99,26 @@ void setup()
   tft.drawBitmap (20, 120, left_15, 15, 15, BLACK, WHITE);
   tft.setCursor(50, 130);
   tft.print("Automatic");
-}
-
-void loop()
-{
-  if ( !digitalRead(Spin)){
-    delay(500);
-    switch (mode){
-      case 1: 
-      updateMenu = true;
-      tft.fillRect(50, 130, 60, 30, BLACK);
-      mode = 10;
-      break;
-      case 10:
-      updateMenu = true;
-      tft.setCursor(50, 130);
-      tft.print("Automatic");
-      mode = 1;
-      break;
-    }
+  
   }
+  else if ( Xval < 100)
+  {
+     delay(500);
+    mode = 1;
+    updateMenu = true;
+    tft.fillScreen (BLACK);
+    tft.setTextSize(1);
+  tft.setCursor(40, 20);
+  tft.print("Speed is: ");
+  tft.drawBitmap (50, 40, up_15, 15, 15, BLACK, WHITE);
+  tft.drawBitmap (50, 80, down_15, 15, 15, BLACK, WHITE);
+  tft.setCursor(50, 120);
+  tft.print("motion");
+  tft.drawBitmap (100, 120, right_15, 15, 15, BLACK, WHITE);
+  tft.drawBitmap (20, 120, left_15, 15, 15, BLACK, WHITE);
 
+  }
+ 
   while (mode = 10) { 
   int  sensorLeft = digitalRead(SENSOR); // read the sensorleft
   int  sensorRight = digitalRead(SENSORRIGHT);
@@ -160,6 +181,7 @@ void loop()
 
 
   while (mode = 1) { 
+  
   int  sensorLeft = digitalRead(SENSOR); // read the sensorleft
   int  sensorRight = digitalRead(SENSORRIGHT);
   Xval = analogRead(Xpin);
@@ -174,53 +196,47 @@ void loop()
     tft.print(motorspeed/8);
   }
   
-  //stepper.runSpeed(); LEFT
-  if ( Xval > 712 ) {
-//    if ( sensorLeft == 0) {
-//      Serial.println(" left Obstacle detected");
-//     tone ( buzzer , 450);
-//      delay(500);
-//      noTone(buzzer);
-//      delay(500);
-//    }
-//    else {
-//      stepper.setSpeed(-1* motorspeed);
-//      stepper.runSpeed();
-//    }
-  stepmotion = false;
 
-  }
 
   if (Xval < 100 ) {
-//    if(sensorRight == 0){
-//    Serial.println(" Right Obstacle detected");
-//      tone ( buzzer , 450);
-//      delay(500);
-//      noTone(buzzer);
-//      delay(500);
-//      
-//      }
-//      else {
-//  
-//    stepper.setSpeed(motorspeed);
-//    stepper.runSpeed();
-//      }
-
   stepmotion = true;
-  while ( stepmotion = true)
+  while ( stepmotion != false)
+  {
+  Xval = analogRead(Xpin);
+  int  sensorLeft = digitalRead(SENSOR); // read the sensorleft
+  int  sensorRight = digitalRead(SENSORRIGHT);
+  
+    if ( sensorRight == 1 && sensorLeft == 1)
   {
     stepper.setSpeed(motorspeed);
     stepper.runSpeed();
-
-    if (sensorRight == 0){
-      stepper.setSpeed(-1* motorspeed);
-      stepper.runSpeed();
+  }
+   if (sensorRight == 0 ){
+    stepper.moveTo(-1600);
+    if (motorspeed >0)
+    {
+      motorspeed = motorspeed *-1;
+    stepper.setSpeed(motorspeed);
+    stepper.runSpeed();
     }
-    else if ( sensorLeft == 0) {
+    }
+    
+    if ( sensorLeft == 0) {
+      if ( motorspeed < 0)
+     {
+      motorspeed = motorspeed *-1;
       stepper.setSpeed(motorspeed);
     stepper.runSpeed();
     }
-    
+    }
+ 
+   if ( Xval > 712 ) {
+    stepmotion = false;
+     motorspeed = 0;
+     break;
+    Serial.print("left button");
+    }  
+    Serial.println(Xval);
   }
 
   
