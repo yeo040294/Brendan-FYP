@@ -101,11 +101,13 @@ void loop()
         tft.print("Speed is: ");
         tft.drawBitmap (50, 40, up_15, 15, 15, BLACK, WHITE);
         tft.drawBitmap (50, 80, down_15, 15, 15, BLACK, WHITE);
-        tft.setCursor(50, 120);
+        tft.setCursor(50, 110);
         tft.print("motion");
-        tft.drawBitmap (100, 120, right_15, 15, 15, BLACK, WHITE);
-        tft.drawBitmap (20, 120, left_15, 15, 15, BLACK, WHITE);
+        tft.drawBitmap (100, 110, right_15, 15, 15, BLACK, WHITE);
         tft.setCursor(50, 130);
+        tft.print("stop");
+        tft.drawBitmap (20, 130, left_15, 15, 15, BLACK, WHITE);
+        tft.setCursor(50, 150);
         tft.print("Automatic");
         Serial.println(state);
       }
